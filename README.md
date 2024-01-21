@@ -3,6 +3,8 @@ Possible names:
 * On Board
 * Board Gamers
 
+IP address: 44.217.89.189
+
 ## Notes
 [Notes for this class](notes.md)
 

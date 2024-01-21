@@ -21,3 +21,14 @@ git init
 
 ### Markdown Basics
 Basic formatting and syntax info can be found on the [GitHub Markdown Intro](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+
+## AWS Basics
+IP address: 44.217.89.189
+
+#### Steps to start the server
+* created an instance of a webserver through AWS EC2
+   * For this project, using an AMI (Amazon Machine Image) as the base for the server
+   * Had to make sure to adjust the security group rules to allow ssh, http, and https from anywhere (0.0.0.0/0)
+   * currently using a t2.micro instance because it's on the free tier - can upgrade to t3.micro/nano/small if running too slowly/erratically
+* Can ssh into the server - ssh -i production-260.pem ubuntu@44.217.89.189
+* Can associate an elastic IP with the server so that the IP address stays the same even when stopping the server

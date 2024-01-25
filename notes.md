@@ -32,3 +32,7 @@ IP address: `44.217.89.189`
    * currently using a `t2.micro` instance because it's on the free tier - can upgrade to `t3.micro/nano/small` if running too slowly/erratically
 * Can ssh into the server - `ssh -i production-260.pem ubuntu@44.217.89.189`
 * Can associate an elastic IP with the server so that the IP address stays the same even when stopping the server
+
+  ### Domain name
+  * Register a domain name from AWS Route 53
+  * need to manage the records so that it connects to the IP address of your server for the rot domain name and for all subdomain names by creating records associated with the domain name

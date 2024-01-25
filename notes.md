@@ -36,3 +36,10 @@ IP address: `44.217.89.189`
 #### Domain name
 * Register a domain name from AWS Route 53
 * need to manage the records so that it connects to the IP address of your server for the rot domain name and for all subdomain names by creating records associated with the domain name
+
+
+## HTTPS
+* Secure Hypertext Transport Protocol basically expected for all online communication now.
+* data and web certificates passed back and forth between browser and domain name of server to verify identity
+* Use Caddy and `Let's Encrypt` to dynamically generate and renew a certificate for free
+* Modified the Caddy rules to handle requests to the domain name instead of to a specific port so that it uses HTTPS instead

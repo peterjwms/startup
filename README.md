@@ -4,6 +4,7 @@ Possible names:
 * Board Gamers
 
 IP address: 44.217.89.189
+Domain name: onboard260.click
 
 ## Notes
 [Notes for this class](notes.md)

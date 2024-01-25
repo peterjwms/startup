@@ -1,9 +1,7 @@
-# startup
-Possible names:
-* On Board
-* Board Gamers
+# startup - OnBoard
 
 IP address: 44.217.89.189
+
 Domain name: onboard260.click
 
 ## Notes

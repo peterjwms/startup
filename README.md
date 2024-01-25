@@ -1,8 +1,10 @@
 # startup - OnBoard
 
-IP address: 44.217.89.189
+IP address: `44.217.89.189`
 
-Domain name: onboard260.click
+Domain name: `onboard260.click`
+
+ssh command: `ssh -i ~/keys/production-260.pem ubuntu@onboard260.click`
 
 ## Notes
 [Notes for this class](notes.md)

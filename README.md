@@ -2,7 +2,7 @@
 
 IP address: `44.217.89.189`
 
-Domain name: `onboard260.click`
+Domain name: `[onboard260.click](https://startup.onboard260.click/)`
 
 ssh command: `ssh -i ~/keys/production-260.pem ubuntu@onboard260.click`
 

@@ -19,7 +19,13 @@ git init
    - add a descriptive message with `git commit -am "message"`
 1. Push changes with `git push`
 
-## Console commands
+## Console
+### Vim
+* [Vim cheat sheet](https://vim.rtorr.com/)
+* [Vim game](https://vim-adventures.com/)
+
+
+### Console commands
 - **echo** - Output the parameters of the command
 - **cd** - Change directory
 - **mkdir** - Make directory

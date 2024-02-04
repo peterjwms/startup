@@ -84,3 +84,5 @@ IP address: `44.217.89.189`
 * Modified the Caddy rules to handle requests to the domain name instead of to a specific port so that it uses HTTPS instead
 
 
+## Deployment
+Use the command `./deployFiles.sh -k ~/keys/production-260.pem -h onboard260.click -s simon` in Git Bash to deploy to prod

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <!-- Tell browsers not to scale the viewport automatically -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OnBoard</title>
+        <!-- <link rel="icon" href="favicon.ico" /> -->
+    </head>
+    <body>
+        <header>
+            <h1>OnBoard</h1>
+            <!-- Navigation elements -->
+            <nav>
+            <menu>
+                <!-- TODO: update the links in the header -->
+                <li><a href="index.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="">Notifications</a></li>
+                <li><a href="search.html">Search</a></li>
+            </menu>
+            </nav>
+            <hr>
+        </header>
+        <main>
+            <h1>Search</h1>
+            <!-- not sure what this is supposed to be since the action is sending an API request -->
+            <form method="get">
+                <label for="search">Search:</label>
+                <input type="text" id="search" placeholder="Enter the name of a game" />
+                <button type="submit">Search</button>
+            </form>
+            <hr>
+            <h1>Results</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thumbnail</th>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Publisher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>placeholder</td>
+                        <td>7 Wonders</td>
+                        <td>2010</td>
+                        <td>Repos Production</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </body>
+</html>

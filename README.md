@@ -41,3 +41,12 @@ I am going to use the required technologies in the following ways.
 * **WebSocket** - Each user can see other user's scores for each game.
 * **React** - Application ported to use the React web framework.
 
+## HTML Deliverable
+
+For this deliverable I built out the structure of my application using HTML
+* **HTML** - Five HTML pages representing login, profile, notifications, search, and adding a score.
+* **Links** - Login automatically links to the voter page. Menu is always visible at the top of each page with appropriate links. Additional links in appropriate places for adding games or scores take you to the search and add score forms, respectively.
+* **Text** - Appropriate text throughout the site describing possible actions and data.
+* **Images** - Example images included on profile and search (will be generated dynamically through API calls in the future)
+* **DB/Login** - Input box and submit button for login. Example database data shown on the profile page.
+* **WebSocket** - Notifications page will pull data from actions from other users.

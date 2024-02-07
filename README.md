@@ -48,5 +48,6 @@ For this deliverable I built out the structure of my application using HTML
 * **Links** - Login automatically links to the voter page. Menu is always visible at the top of each page with appropriate links. Additional links in appropriate places for adding games or scores take you to the search and add score forms, respectively.
 * **Text** - Appropriate text throughout the site describing possible actions and data.
 * **Images** - Example images included on profile and search (will be generated dynamically through API calls in the future)
+* **3rd Party Services** - The search page will be populated by calls to the BoardGameGeek API. Current dummy data fills in the results, but will be replaced by dynamically generated data through their API.
 * **DB/Login** - Input box and submit button for login. Example database data shown on the profile page.
 * **WebSocket** - Notifications page will pull data from actions from other users.

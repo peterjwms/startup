@@ -4,6 +4,6 @@ body {
     min-width: 375px;
   }
   
-  header {
+header {
     flex: 0 80px;
-  }
+}

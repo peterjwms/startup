@@ -1,12 +1,60 @@
 body {
-    display: flex;
-    flex-direction: column;
-    min-width: 375px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
   
 header {
-  flex: 0 80px;
+  flex: 0 70px;
+  /* flex-direction: row;
+  display: flex; */
+  background-color: darkcyan;
+}
+/* 
+menu {
+  /* display: flex; */
+  /* flex-direction: row; */
+
+main {
+  display: flex;
   flex-direction: column;
+  flex: 1 100px;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: 100px;
+  background-color: gray;
 }
 
+footer {
+  display: flex;
+  flex-direction: row;
+  flex: 0 40px;
+  background-color: darkcyan;
+}
 
+menu {
+  flex-direction: row !important;
+}
+
+menu li {
+  display: flex;
+  padding: 0.5em;
+}
+
+.navbar {
+  padding: 0% !important;
+  justify-content: flex-start !important;
+}
+
+.navbar-brand {
+  font-size: 200% !important;
+}
+
+footer p {
+  float: left;
+}
+
+footer a {
+  float: right;
+}

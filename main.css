@@ -5,56 +5,56 @@ body {
 }
   
 header {
-  flex: 0 70px;
-  /* flex-direction: row;
-  display: flex; */
+  flex: 0 60px;
+  display: flex;
   background-color: darkcyan;
 }
-/* 
-menu {
-  /* display: flex; */
-  /* flex-direction: row; */
 
 main {
   display: flex;
   flex-direction: column;
-  flex: 1 100px;
+  flex: 1 calc(100vh - 100px);
   align-items: center;
-  justify-content: space-around;
-
-  padding: 100px;
-  background-color: gray;
+  justify-content: center;
+  background-color: lightgray;
+  width: 100%;
 }
 
 footer {
-  display: flex;
-  flex-direction: row;
-  flex: 0 40px;
+  flex: 0 30px;
   background-color: darkcyan;
+  color: white;
+  padding: .5em;
+}
+
+.navbar {
+  /* padding: 0% !important; */
+  justify-content: flex-start !important;
+  background-color: darkcyan;
+}
+
+.navbar-brand {
+  font-size: 150% !important;
+  padding-left: .5em;
 }
 
 menu {
   flex-direction: row !important;
+  flex-wrap: nowrap;
+  margin-top: 0;
 }
 
 menu li {
   display: flex;
-  padding: 0.5em;
+  padding-left: 0.5em;
 }
 
-.navbar {
-  padding: 0% !important;
-  justify-content: flex-start !important;
-}
-
-.navbar-brand {
-  font-size: 200% !important;
-}
-
-footer p {
-  float: left;
+footer span {
+  padding-left: 0 .5em;
 }
 
 footer a {
   float: right;
+  color: white;
+  padding-right: 0 .5em;
 }

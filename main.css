@@ -2,8 +2,11 @@ body {
     display: flex;
     flex-direction: column;
     min-width: 375px;
-  }
+}
   
 header {
-    flex: 0 80px;
+  flex: 0 80px;
+  flex-direction: column;
 }
+
+

@@ -2,12 +2,17 @@
     text-align: center;
 } */
 
+main {
+    width: 100%;
+}
+
 table {
     display: table;
     width: 90%;
     border-collapse: collapse !important;
     height: 90%;
     padding: 5%;
+    margin: auto;
 }
 
 table thead {

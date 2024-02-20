@@ -3,6 +3,8 @@ body {
   flex-direction: column;
   justify-content: center;
   min-width: 375px;
+  height: 100%;
+  overflow: auto;
 }
   
 header {
@@ -19,10 +21,11 @@ main {
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 
 footer {
-  flex: 0 30px;
+  flex: 0 40px;
   background-color: darkcyan;
   color: white;
   /* padding: .5em; */

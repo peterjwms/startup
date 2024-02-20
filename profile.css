@@ -13,6 +13,15 @@ table {
     height: 90%;
     padding: 5%;
     margin: auto;
+
+}
+
+#games-container {
+    display: grid;
+}
+
+#game-scores table {
+    display: block;
 }
 
 table thead {

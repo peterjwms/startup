@@ -1,0 +1,30 @@
+/* th {
+    text-align: center;
+} */
+
+table {
+    display: table;
+    width: 90%;
+    border-collapse: collapse !important;
+    height: 90%;
+    padding: 5%;
+}
+
+table thead {
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+    border-collapse: collapse !important;
+}
+
+table td table {
+    display: table;
+    border-collapse: collapse !important;
+    margin-bottom: 0rem !important;
+}
+
+img {
+    max-width: 90%;
+}

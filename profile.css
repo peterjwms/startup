@@ -1,10 +1,36 @@
-/* th {
-    text-align: center;
-} */
 
 main {
     width: 100%;
+    display: flex;
 }
+
+#header-container {
+    display: flex;
+    justify-content: left;
+    text-align: center;
+    flex-direction: row;
+    align-items: baseline;
+    width: 100%;
+    padding-left: 2%;
+}
+
+#games-header {
+    justify-content: left;
+    font-size: 250%;
+    font-weight: 600;
+    text-align: left;
+    padding-right: 1%;
+    float: left;
+}
+
+#username-container {
+    float: right;
+    justify-self: right;
+    text-align: right;
+}
+
+/* #username-container {
+} */
 
 table {
     display: table;
@@ -12,7 +38,7 @@ table {
     border-collapse: collapse !important;
     height: 90%;
     padding: 5%;
-    margin: auto;
+    margin: 0%;
 
 }
 
@@ -21,16 +47,10 @@ table {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-auto-rows: auto;
     width: 100%;
+    gap: 1em;
     justify-content: center;
 }
 
-/* #games-container div {
-    max-width: 30vw;
-} */
-
-/* #game-scores table {
-    display: block;
-} */
 
 table thead {
     text-align: center;

@@ -48,7 +48,8 @@ table {
     grid-auto-rows: auto;
     width: 100%;
     gap: 1em;
-    justify-content: center;
+    justify-items: center;
+    align-items: center;
 }
 
 

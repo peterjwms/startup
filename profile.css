@@ -4,6 +4,8 @@ main {
     display: flex;
 }
 
+/* TODO: adjust header-container to be  */
+
 #header-container {
     display: inline-flex;
     justify-content: space-between;
@@ -43,8 +45,18 @@ main {
     margin-top: .5%;
 }
 
-/* #username-container {
-} */
+@media (max-width: 475px) {
+    #header-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #header-container div {
+        justify-content: center;
+    }
+}
 
 table {
     display: table;
@@ -59,8 +71,7 @@ table {
 #games-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(400px, 1fr));
-    /* TODO: need to change the grid-auto-rows so that they stay one height */
+    grid-auto-rows: max-content;
     width: 100%;
     gap: 1em;
     justify-items: center;

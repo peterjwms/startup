@@ -5,14 +5,27 @@ main {
 }
 
 #header-container {
-    display: flex;
-    justify-content: left;
-    text-align: center;
+    display: inline-flex;
+    justify-content: space-between;
     flex-direction: row;
-    align-items: baseline;
+    align-items: flex-end;
     width: 100%;
     padding-left: 2%;
+    padding-right: 2%;
+    text-align: center;
+    white-space: nowrap;
+    
 }
+
+
+#header-container div {
+    display: inline-flex;
+    align-items: baseline;
+    align-self: baseline;
+    justify-content: flex-start;
+    width: 100%;
+}
+
 
 #games-header {
     justify-content: left;
@@ -25,8 +38,9 @@ main {
 
 #username-container {
     float: right;
-    justify-self: right;
+    justify-self: bottom;
     text-align: right;
+    margin-top: .5%;
 }
 
 /* #username-container {
@@ -44,17 +58,30 @@ table {
 
 #games-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    grid-auto-rows: auto;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(400px, 1fr));
+    /* TODO: need to change the grid-auto-rows so that they stay one height */
     width: 100%;
     gap: 1em;
     justify-items: center;
     align-items: center;
 }
 
+div.game {
+    justify-self: center;
+    align-self: stretch;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    justify-self: center;
+    margin: auto;
+}
 
 table thead {
     text-align: center;
+    font-size: larger;
 }
 
 table td {
@@ -70,4 +97,21 @@ table td table {
 
 img {
     max-width: 90%;
+    max-height: 90%;
+}
+
+td.score-header {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#separator {
+    color: darkcyan;
+    margin: 0 auto;
+    border:2px solid darkcyan;
+    width: 98%;
+    margin-bottom: 1rem;
 }

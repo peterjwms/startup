@@ -432,3 +432,35 @@ coinToss
 
 * Async/await: `await` wraps execution of a promise and removes the chaining; blocks running until promise state is `fulfilled`; need to define a function as `async` so that function returns a promise (automatically resolved with a value that is the function's return value), and then change it to explicitly create a promise
 
+
+## Web services
+### Overview
+* internet connections between devices use IP addresses, or symbolic domain names, which are keys to IP addresses in the Domain Name System (DNS)
+* `traceroute` console functionality traces the route between a device and some IP address/domain
+* TCP/IP model - layered architecture covering everything from physical wires to the data sent
+
+| Layer       | Example         | Purpose                               |
+| ----------- | --------------- | ------------------------------------- |
+| Application | HTTPS           | Functionality like web browsing       |
+| Transport   | TCP             | Moving connection information packets |
+| Internet    | IP              | Establishing connections              |
+| Link        | Fiber, hardware | Physical connections                  |
+
+### Web servers
+* web server: a computing device that is hosting a web service that knows how to accept internet connections and speak HTTP app protocol
+* able to create web services easily and build them into the web app w/ modern programming langs
+* gateways: also called reverse proxy, which is a web service listening on HTTPS 443 to then map each incoming request to services on other ports
+* microservice: web services that provide single functional purpose (single responsibility principle)
+* `serverless` functionality - write a function that speaks HTTP - just need to think about a single function now
+
+## Domain names
+* domain name: text string that follows specific naming conventions and is listed in the domain name registry
+   * broken into root domain (secondary level domain (byu) and top level domain (com, org, click))
+   * then can make subdomain prefixes, as many as desired; can resolved to different IP addresses if desired
+* console: 
+   * get the IP address for any domain using `dig`
+   * `whois` - info about domain name from domain name registry
+* DNS
+   * list registered domains with a domain name system (DNS) server and associate it with an IP address
+   * `address` `A` records map domain name to IP and `canonical name` `CNAME` records map domain name to domain name (alias)
+   ** `time to live` `TTL` setting to set how long info should be cached

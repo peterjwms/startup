@@ -8,6 +8,7 @@
         <!-- <link rel="icon" href="favicon.ico" /> -->
 
         <link rel="stylesheet" href="main.css" />
+        <link rel="stylesheet" href="search.css" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -30,16 +31,20 @@
             </nav>
         </header>
         <main>
-            <h1>Search</h1>
+            <div>
+                <h1>Search</h1>
             <!-- not sure what this is supposed to look like since this should send an API request -->
-            <form method="get">
-                <label for="search">Search:</label>
-                <input type="text" id="search" placeholder="Enter the name of a game" />
-                <button type="submit">Search</button>
-            </form>
+                <form method="get" class="form-inline">
+                    <!-- <label for="search">Search:</label> -->
+                    <input type="text" id="search" placeholder="Enter the name of a game" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            
             <hr>
-            <h1>Results</h1>
-            <table>
+            <div>
+                <h1>Results</h1>
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Thumbnail</th>
@@ -55,12 +60,14 @@
                         <td><img src="https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"></td>
                         <td>Wingspan</td>
                         <td>2019</td>
-                        <td>Add game</td>
+                        <td><button class="btn btn-primary">Add</button></td>
                         <td>Stonemaier Games</td>
                         <td>Attract a beautiful and diverse collection of birds to your wildlife preserve.</td>
                     </tr>
                 </tbody>
             </table>
+            </div>
+            
         </main>
         <footer class="container-fluid">
             <span>Peter Williams</span>

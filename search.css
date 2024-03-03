@@ -1,0 +1,46 @@
+form {
+    justify-content: center;
+    align-items: center;
+}
+
+form input {
+    width: fit-content;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    padding: 2px;
+    border-collapse: separate;
+    text-align: center;
+    justify-content: center;
+}
+
+thead {
+    text-align: center;
+}
+
+tbody {
+    border: 1px solid darkcyan;
+    text-align: center;
+    max-width: 98%;
+    align-content: center;
+}
+
+td {
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+img {
+    object-fit: contain;
+    max-height: 200px;
+}

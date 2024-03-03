@@ -453,7 +453,7 @@ coinToss
 * microservice: web services that provide single functional purpose (single responsibility principle)
 * `serverless` functionality - write a function that speaks HTTP - just need to think about a single function now
 
-## Domain names
+### Domain names
 * domain name: text string that follows specific naming conventions and is listed in the domain name registry
    * broken into root domain (secondary level domain (byu) and top level domain (com, org, click))
    * then can make subdomain prefixes, as many as desired; can resolved to different IP addresses if desired
@@ -464,3 +464,4 @@ coinToss
    * list registered domains with a domain name system (DNS) server and associate it with an IP address
    * `address` `A` records map domain name to IP and `canonical name` `CNAME` records map domain name to domain name (alias)
    ** `time to live` `TTL` setting to set how long info should be cached
+

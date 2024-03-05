@@ -2,7 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* min-width: 375px; */
+  min-width: 375px;
   width: inherit;
   overflow: auto;
   background-color: darkcyan !important;
@@ -14,18 +14,16 @@ header {
 }
 
 @media screen and (max-width: 378px) {
-  header {
+  /* header {
     flex: 0 102px;
-  }
+  } */
   main {
     display: flex;
     flex: 1 calc(100vh - 142px) !important;
   }
 }
 
-.container-fluid {
-  /* padding: 0% !important; */
-}
+
 
 main {
   display: flex;
@@ -38,6 +36,7 @@ main {
   margin-left: auto;
   margin-right: auto;
   width: 100vw;
+  min-width: inherit;
 }
 
 

@@ -34,7 +34,7 @@ main {
     font-size: 250%;
     font-weight: 600;
     text-align: left;
-    padding-right: 1%;
+    padding-right: 2%;
     float: left;
 }
 
@@ -58,6 +58,12 @@ main {
     }
 }
 
+@media (max-width: 378px) {
+    .table-responsive {
+        max-width: 375px;
+    }
+}
+
 table {
     display: table;
     width: 90%;
@@ -70,20 +76,26 @@ table {
 
 #games-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, max-content));
+    grid-template-columns: repeat(auto-fill, minmax(min-content, max-content));
     grid-auto-rows: max-content;
     width: 100%;
     gap: 1em;
     justify-items: center;
     align-items: center;
+    justify-content: center;
 }
 
-div.game {
+/* .table-responsive {
+    width: 100%;
+    max-width: 100vw;
+}  */
+
+/* div.game {
     justify-self: center;
     align-self: stretch;
     justify-content: center;
     align-items: center;
-}
+} */
 
 table {
     justify-self: center;
@@ -107,7 +119,7 @@ table td table {
 }
 
 img {
-    object-fit: contain;
+    object-fit: scale-down;
     max-width: 300px;
 }
 
@@ -127,7 +139,3 @@ td.score-header {
     margin-bottom: 1rem;
 }
 
-.table-responsive {
-    width: 100%;
-    max-width: 350px;
-} 

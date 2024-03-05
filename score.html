@@ -8,6 +8,7 @@
         <!-- <link rel="icon" href="favicon.ico" /> -->
 
         <link rel="stylesheet" href="main.css" />
+        <link rel="stylesheet" href="score.css" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -32,15 +33,31 @@
         <main>
             <h1>Add score</h1>
             <form method="post">
-                <input type="text" placeholder="Enter the name of a game" />
-                <br>
-                <input type="text" placeholder="Enter the player name" />
-                <br>
-                <input type="number" placeholder="Enter your score" />
-                <br>
-                <input type="date" />
-                <br>
-                <button type="submit">Submit</button>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Game</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter the name of a game" />
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Player</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter the player name" />
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Score</span>
+                    </div>
+                    <input type="number" class="form-control" placeholder="Enter your score" />
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Score</span>
+                    </div>
+                    <input class="form-control" type="date" />
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </form>
         </main>
         <footer class="container-fluid">

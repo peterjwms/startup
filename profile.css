@@ -70,7 +70,7 @@ table {
 
 #games-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, max-content));
     grid-auto-rows: max-content;
     width: 100%;
     gap: 1em;
@@ -107,8 +107,8 @@ table td table {
 }
 
 img {
-    max-width: 90%;
-    max-height: 90%;
+    object-fit: contain;
+    max-width: 300px;
 }
 
 td.score-header {
@@ -126,3 +126,8 @@ td.score-header {
     width: 98%;
     margin-bottom: 1rem;
 }
+
+.table-responsive {
+    width: 100%;
+    max-width: 350px;
+} 

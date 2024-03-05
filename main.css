@@ -2,22 +2,29 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 375px;
-  height: 100%;
+  /* min-width: 375px; */
+  width: inherit;
   overflow: auto;
+  background-color: darkcyan !important;
 }
   
 header {
   flex: 0 62px;
+  /* position: relative; */
 }
 
-@media (max-width: 378px) {
+@media screen and (max-width: 378px) {
   header {
     flex: 0 102px;
   }
   main {
-    flex: 1 calc(100vh - 160px);
+    display: flex;
+    flex: 1 calc(100vh - 142px) !important;
   }
+}
+
+.container-fluid {
+  /* padding: 0% !important; */
 }
 
 main {
@@ -30,7 +37,23 @@ main {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  width: 100%;
+  width: 100vw;
+}
+
+
+.input-group {
+  margin: .5rem;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.btn {
+  margin: .5rem;
 }
 
 footer {
@@ -43,6 +66,7 @@ footer {
   margin-right: auto;
   margin-bottom: auto;
 }
+
 
 .navbar {
   /* padding: 0% !important; */

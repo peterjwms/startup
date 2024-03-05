@@ -7,7 +7,7 @@ form input {
     width: fit-content;
 }
 
-div {
+#results-container, #search-form-container {
     display: flex;
     flex-direction: column;
     padding: 2%;
@@ -17,11 +17,23 @@ div {
 }
 
 table {
+    /* display: flex;
+    flex-direction: column; */
     padding: 2px;
     border-collapse: separate;
     text-align: center;
     justify-content: center;
+    /* max-width: fit-content; */
+    /* overflow-x: auto; */
+    /* white-space: nowrap; */
+    /* max-width: -moz-fit-content; */
 }
+
+.table-responsive {
+    width: 100%;
+    position: relative;
+} 
+
 
 thead {
     text-align: center;

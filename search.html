@@ -31,7 +31,7 @@
             </nav>
         </header>
         <main>
-            <div>
+            <div id="search-form-container">
                 <h1>Search</h1>
             <!-- not sure what this is supposed to look like since this should send an API request -->
                 <form method="get" class="form-inline">
@@ -40,32 +40,33 @@
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
-            
             <hr>
-            <div>
+            <div id="results-container">
                 <h1>Results</h1>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Thumbnail</th>
-                        <th>Name</th>
-                        <th>Year</th>
-                        <th>Add game?</th>
-                        <th>Publisher</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img src="https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"></td>
-                        <td>Wingspan</td>
-                        <td>2019</td>
-                        <td><button class="btn btn-primary">Add</button></td>
-                        <td>Stonemaier Games</td>
-                        <td>Attract a beautiful and diverse collection of birds to your wildlife preserve.</td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Name</th>
+                                <th>Year</th>
+                                <th>Add game?</th>
+                                <th>Publisher</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"></td>
+                                <td>Wingspan</td>
+                                <td>2019</td>
+                                <td><button class="btn btn-primary">Add</button></td>
+                                <td>Stonemaier Games</td>
+                                <td>Attract a beautiful and diverse collection of birds to your wildlife preserve.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
         </main>

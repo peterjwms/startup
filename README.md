@@ -51,3 +51,19 @@ For this deliverable I built out the structure of my application using HTML
 * **3rd Party Services** - The search page will be populated by calls to the BoardGameGeek API. Current dummy data fills in the results, but will be replaced by dynamically generated data through their API.
 * **DB/Login** - Input box and submit button for login. Example database data shown on the profile page.
 * **WebSocket** - Notifications page will pull data from actions from other users.
+
+
+## CSS Deliverable
+
+For this deliverable, I styled my application using CSS and Bootstrap
+- DONE - **Prerequisite**: Simon CSS deployed to your production environment
+- DONE - **Prerequisite**: A link to your GitHub startup repository prominently displayed on your application's home page
+- DONE - **Prerequisite**: Notes in your startup Git repository README.md file documenting what you modified and added with this deliverable. The TAs will only grade things that have been clearly described as being completed. Review the [voter app](https://github.com/webprogramming260/startup-example) as an example.
+- DONE - **Prerequisite**: At least 10 git commits spread consistently throughout the assignment period.
+- Properly styled CSS
+  - DONE - 30% Header, footer, and main content body - styled using primarily flexbox for overall layout on each page. Profile is laid out with grid for each game element, inside of the flexbox.
+  - DONE - 20% Navigation elements - mix of Bootstrap and custom elements for consistent navbar across all pages.
+  - DONE - 10% Responsive to window resizing - Whole application looks good at smallest, largest, and in between sizes from Chrome debugger.
+  - DONE - 20% Application elements - main elements (search and profile) are laid out in responsive tables; buttons and input forms are Bootstrap.
+  - DONE - 10% Application text content - Text is appropriately sized and styled, using default sans serif.
+  - DONE - 10% Application images - example images appropriately resize in the search and profile pages.

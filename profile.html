@@ -18,10 +18,10 @@
 
     </head>
     <body>
-        <header class="container-fluid">
+        <header class="container-fluid ">
             <!-- Navigation elements -->
             <nav class="navbar fixed-top navbar-dark">
-                <span class="navbar-brand">OnBoard</span>
+                <div class="navbar-brand">OnBoard</div>
                 <menu class="navbar-nav">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="profile.html" class="nav-link active">Profile</a></li>
@@ -30,10 +30,10 @@
                 </menu>
             </nav>
         </header>
-        <main>
+        <main class="container-fluid">
             <div id="header-container" class="container-fluid">
-                <div>
-                    <span id="games-header">Your Games</span>
+                <div id="add-games-container">
+                    <div id="games-header">Your Games</div>
                     <a href="search.html">Add game</a>
                 </div>
                 <span id="username-container">User: Username123</span>
@@ -41,7 +41,7 @@
             <!-- TODO: add a container here that's just a line separating the title + 'add games' from the added games -->
             <hr id="separator"></hr>
             <div id="games-container">
-                <div id="game-one" class="table-responsive">
+                <div id="game-one" >
                     <table>
                         <thead>
                             <tr>
@@ -60,7 +60,7 @@
                             </tr>
                             <tr>
                                 <td id="wingspan-dummy-scores">
-                                    <!-- <div class="table-responsive"> -->
+                                    <div class="table-responsive">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -95,14 +95,14 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    <!-- </div> -->
+                                    </div>
                                     
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="game-two" class="table-responsive">
+                <div id="game-two" >
                     <table>
                         <thead>
                             <tr><th>7 Wonders</th></tr>
@@ -117,7 +117,7 @@
                             </tr>
                             <tr>
                                 <td id="seven-wonders-dummy-scores">
-                                    <!-- <div class="table-responsive"> -->
+                                    <div class="table-responsive">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -152,14 +152,14 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    <!-- </div> -->
+                                    </div>
 
                                 </td> 
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="game-three" class="table-responsive">
+                <div id="game-three" >
                     <table>
                         <thead>
                             <tr><th>Azul</th></tr>
@@ -174,7 +174,7 @@
                             </td>
                             <tr>
                                 <td id="azul-dummy-scores">
-                                    <!-- <div class="table-responsive"> -->
+                                    <div class="table-responsive">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -209,7 +209,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    <!-- </div> -->
+                                    </div>
                                     
                                 </td>
                             </tr>

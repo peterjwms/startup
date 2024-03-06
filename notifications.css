@@ -14,9 +14,8 @@ main {
     flex-wrap: wrap;
 }
 
-div {
+#activity-holder {
     width: 100%;
-    /* text-wrap: wrap; */
     padding: 1%;
 }
 

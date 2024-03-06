@@ -12,3 +12,7 @@ form {
 .btn {
     margin: .5rem;
 }
+
+main {
+    max-width: 100vw;
+}

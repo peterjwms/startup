@@ -1,10 +1,5 @@
 
-main {
-    width: 100%;
-    display: flex;
-}
 
-/* TODO: adjust header-container to be  */
 
 #header-container {
     display: inline-flex;
@@ -20,7 +15,7 @@ main {
 }
 
 
-#header-container div {
+#add-games-container {
     display: inline-flex;
     align-items: baseline;
     align-self: baseline;
@@ -53,16 +48,26 @@ main {
         align-items: center;
     }
 
-    #header-container div {
+    #add-games-container {
         justify-content: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #username-container {
+        padding-top: 2%;
     }
 }
 
-@media (max-width: 378px) {
-    .table-responsive {
-        max-width: 375px;
+@media (max-width: 315) {
+    #add-games-container {
+        display: flex;
+        flex-direction: column;
     }
 }
+
 
 table {
     display: table;
@@ -71,12 +76,13 @@ table {
     height: 90%;
     padding: 5%;
     margin: 0%;
+    max-width: 100vw;
 
 }
 
 #games-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min-content, max-content));
+    grid-template-columns: repeat(auto-fill, minmax(350px, max-content));
     grid-auto-rows: max-content;
     width: 100%;
     gap: 1em;
@@ -85,17 +91,14 @@ table {
     justify-content: center;
 }
 
-/* .table-responsive {
+#games-container div {
+    max-width: 98vw;
+}
+
+.table-responsive {
     width: 100%;
     max-width: 100vw;
-}  */
-
-/* div.game {
-    justify-self: center;
-    align-self: stretch;
-    justify-content: center;
-    align-items: center;
-} */
+} 
 
 table {
     justify-self: center;
@@ -119,8 +122,8 @@ table td table {
 }
 
 img {
-    object-fit: scale-down;
-    max-width: 300px;
+    object-fit: contain;
+    max-width: 100%;
 }
 
 td.score-header {

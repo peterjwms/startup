@@ -21,7 +21,7 @@
         <header class="container-fluid">
             <!-- Navigation elements -->
             <nav class="navbar fixed-top navbar-dark">
-                <span class="navbar-brand">OnBoard</span>
+                <div class="navbar-brand">OnBoard</div>
                 <menu class="navbar-nav">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="profile.html" class="nav-link">Profile</a></li>
@@ -30,13 +30,13 @@
                 </menu>
             </nav>
         </header>
-        <main>
+        <main class="container-fluid">
             <div id="search-form-container">
                 <h1>Search</h1>
             <!-- not sure what this is supposed to look like since this should send an API request -->
                 <form method="get" class="form-inline">
                     <!-- <label for="search">Search:</label> -->
-                    <input type="text" id="search" placeholder="Enter the name of a game" />
+                    <input type="text" id="search" placeholder="Enter the name of a game" class="form-control"/>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>

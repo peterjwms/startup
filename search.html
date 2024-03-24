@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>OnBoard</title>
         <!-- <link rel="icon" href="favicon.ico" /> -->
+        
 
         <link rel="stylesheet" href="main.css" />
         <link rel="stylesheet" href="search.css" />
@@ -36,15 +37,15 @@
             <!-- not sure what this is supposed to look like since this should send an API request -->
                 <form method="get" class="form-inline">
                     <!-- <label for="search">Search:</label> -->
-                    <input type="text" id="search" placeholder="Enter the name of a game" class="form-control"/>
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" id="search-bar" placeholder="Enter the name of a game" class="form-control"/>
+                    <input type="button" class="btn btn-primary" onclick="search()" value="Search"></input>
                 </form>
             </div>
             <hr>
             <div id="results-container">
                 <h1>Results</h1>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="results-table">
                         <thead>
                             <tr>
                                 <th>Thumbnail</th>
@@ -55,15 +56,15 @@
                                 <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody id="results-table-body">
+                            <!-- <tr>
                                 <td><img src="https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"></td>
                                 <td>Wingspan</td>
                                 <td>2019</td>
-                                <td><button class="btn btn-primary">Add</button></td>
+                                <td><button class="btn btn-primary" onclick="addGame()">Add</button></td>
                                 <td>Stonemaier Games</td>
                                 <td>Attract a beautiful and diverse collection of birds to your wildlife preserve.</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -74,5 +75,6 @@
             <span>Peter Williams</span>
             <a href="https://github.com/peterjwms/startup" target="_blank">GitHub</a>
         </footer>
+        <script src="search.js"></script>
     </body>
 </html>

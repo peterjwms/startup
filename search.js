@@ -13,6 +13,14 @@ async function search() {
 
     const searchBarEl = document.querySelector("#search-bar");
     localStorage.setItem("searchValue", searchBarEl.value);
+
+    const tableBodyEl = document.querySelector('#results-table-body')
+    while (tableBodyEl.firstChild) {
+        tableBodyEl.firstChild.remove()
+    }
+    
+
+    // this is where the API call will go instead of making up results
     
     let results = []
     // make up several games
@@ -28,7 +36,7 @@ async function search() {
     "Draft cards to develop your ancient civilization and build its Wonder of the World.",
     "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"))
 
-    const tableBodyEl = document.querySelector('#results-table-body')
+    
 
     // then add all the elements
     if (results.length) {
@@ -45,11 +53,17 @@ async function search() {
             thumbnailImgEl.src = game.thumbnail;
             nameTdEl.textContent = game.title;
             yearTdEl.textContent = game.year;
-            addGameButtonEl.className="btn btn-primary";
-            addGameButtonEl.onclick = "addGame()";
-            addGameButtonEl.textContent = "Add";
             publisherTdEl.textContent = game.publisher;
             descriptionTdEl.textContent = game.description;
+
+            addGameButtonEl.className="btn btn-primary";
+            addGameButtonEl.id = game.title + "-add-button"
+            addGameButtonEl.setAttribute("onclick", "addGame(" + JSON.stringify(game) + ", this.id)");
+            addGameButtonEl.textContent = "Add";
+            // check if the game is in localStorage already - if so, disable the button
+            if (localStorage.getItem(game.title) !== null) {
+                addGameButtonEl.disabled = true;
+            }
 
             const rowEl = document.createElement('tr');
 
@@ -77,14 +91,21 @@ async function search() {
     // )
 }
 
-async function addGame() {
+async function addGame(gameString, id) {
     // figure out how to get the button press value so I know where to pull the data from
+    console.log(gameString);
+    console.log(id)
+    // game = JSON.parse(gameString)
+    localStorage.setItem(gameString.title, JSON.stringify(gameString));
 
-    return new Promise((resolve) => {
-        console.log('game added');
-        resolve();
-    }
-    )
+    addGameButtonEl = document.getElementById(id);
+    addGameButtonEl.disabled = true;
+
+    // return new Promise((resolve) => {
+    //     console.log('game added');
+    //     resolve();
+    // }
+    // )
 }
 
 class Game {

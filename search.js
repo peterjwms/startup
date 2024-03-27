@@ -101,11 +101,7 @@ async function addGame(gameString, id) {
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
 
-    // return new Promise((resolve) => {
-    //     console.log('game added');
-    //     resolve();
-    // }
-    // )
+    // TODO: need to maybe adjust this so that it adds to a list of games the user has
 }
 
 class Game {

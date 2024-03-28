@@ -14,7 +14,7 @@ function getPlayerName() {
 function getPlayerGames() {
     // this should pull from the database - for now generate the data, and pull it from localStorage
     let games = [];
-    const gamesText = localStorage.getItem('games');
+    const gamesText = localStorage.getItem('userGames');
     if (gamesText) {
         games = JSON.parse(gamesText);
     }

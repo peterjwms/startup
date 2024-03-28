@@ -36,7 +36,14 @@ async function search() {
     "Draft cards to develop your ancient civilization and build its Wonder of the World.",
     "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"))
 
-    
+    let userGames = []
+
+    if (localStorage.getItem('userGames') === null) {
+        localStorage.setItem('userGames', JSON.stringify(userGames));
+    }
+    else {
+        userGames = localStorage.getItem('userGames');
+    }
 
     // then add all the elements
     if (results.length) {
@@ -61,7 +68,7 @@ async function search() {
             addGameButtonEl.setAttribute("onclick", "addGame(" + JSON.stringify(game) + ", this.id)");
             addGameButtonEl.textContent = "Add";
             // check if the game is in localStorage already - if so, disable the button
-            if (localStorage.getItem(game.title) !== null) {
+            if (userGames.includes(game.title)) {
                 addGameButtonEl.disabled = true;
             }
 
@@ -84,19 +91,20 @@ async function search() {
         tableBodyEl.innerHTML = '<tr><td colSpan=6>Search for a game</td></tr>';
     }
 
-    // return new Promise((resolve) => {
-    //     console.log('search pressed');
-    //     resolve();
-    // }
-    // )
 }
 
 async function addGame(gameString, id) {
     // figure out how to get the button press value so I know where to pull the data from
-    console.log(gameString);
-    console.log(id)
+    // console.log(gameString);
+    // console.log(id);
+    let games = [];
+    games = JSON.parse(localStorage.getItem('userGames'));
+    // console.log(games);
     // game = JSON.parse(gameString)
+    games.push(gameString.title)
+
     localStorage.setItem(gameString.title, JSON.stringify(gameString));
+    localStorage.setItem('userGames', JSON.stringify(games))
 
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
@@ -120,17 +128,3 @@ class Game {
         this.thumbnail = thumbnail;
     }
 }
-
-// class Button {
-//     constructor(el) {
-//         this.el = el;
-//     }
-
-//     async press() {
-//         return new Promise(async (pressResolve) => {
-//             await this.addGame();
-//             // TODO: change the button status to be greyed out and unclickable, and to say added
-//             pressResolve();
-//         });
-//     }
-// }

@@ -94,13 +94,13 @@ async function search() {
 
 async function addGame(gameString, id) {
     // figure out how to get the button press value so I know where to pull the data from
-    // console.log(gameString);
-    // console.log(id);
+
     let games = [];
     games = JSON.parse(localStorage.getItem('userGames'));
-    // console.log(games);
-    // game = JSON.parse(gameString)
+
+    //TODO: maybe adjust this so it's more efficient than sorting every time
     games.push(gameString.title)
+    games.sort()
 
     localStorage.setItem(gameString.title, JSON.stringify(gameString));
     localStorage.setItem('userGames', JSON.stringify(games))

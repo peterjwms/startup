@@ -31,6 +31,7 @@ async function search() {
     results.push( new Game("Azul", 2017, "Next Move Games", 
     "Artfully embellish the walls of your palace by drafting the most beautiful tiles.",
     "https://cf.geekdo-images.com/aPSHJO0d0XOpQR5X-wJonw__imagepage/img/q4uWd2nXGeEkKDR8Cc3NhXG9PEU=/fit-in/900x600/filters:no_upscale():strip_icc()/pic6973671.png"))    
+    
     results.push(new Game("7 Wonders", 2010, "Repos Production",
     "Draft cards to develop your ancient civilization and build its Wonder of the World.",
     "https://cf.geekdo-images.com/35h9Za_JvMMMtx_92kT0Jg__imagepage/img/WKlTys0Dc3F6x9r05Fwyvs82tz4=/fit-in/900x600/filters:no_upscale():strip_icc()/pic7149798.jpg"))

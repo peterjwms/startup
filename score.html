@@ -32,37 +32,38 @@
         </header>
         <main class="container-fluid">
             <h1>Add score</h1>
-            <form method="get">
+            <form id="add-score-form">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Game</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Enter the name of a game" />
+                    <input type="text" class="form-control" placeholder="Enter the name of a game" id="game-name-field"/>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Player</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Enter the player name" />
+                    <input type="text" class="form-control" placeholder="Enter the player name" id="player-name-field"/>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Score</span>
                     </div>
-                    <input type="number" class="form-control" placeholder="Enter your score" />
+                    <input type="number" class="form-control" placeholder="Enter your score" id="score-field"/>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Score</span>
+                        <span class="input-group-text">Date</span>
                     </div>
-                    <input class="form-control" type="date" />
+                    <input class="form-control" type="date" id="date-field" />
                 </div>
-                <button class="btn btn-primary" type="submit" formaction="profile.html">Submit</button>
+                <input type="button" class="btn btn-primary" onclick="addScore()" value="Submit"></input>
             </form>
         </main>
         <footer class="container-fluid">
             <span>Peter Williams</span>
             <a href="https://github.com/peterjwms/startup" target="_blank">GitHub</a>
         </footer>
+        <script src="score.js"></script>
     </body>
 </html>

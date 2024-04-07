@@ -18,7 +18,7 @@ function getPlayerScores(games) {
 }
 
 function loadProfile() {
-    let games = JSON.parse(localStorage.getItem('userGames'));
+    let games = JSON.parse(localStorage.getItem('userGames') || "[]");
     // want to use setAttribute("id", "wingspan-username") to set attributes and be able to access elements later
     for (const [i, gameName] of games.entries()) {
         console.log(gameName)

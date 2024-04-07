@@ -38,12 +38,31 @@ async function addScore() {
         }
     }
 
+    // update the array of scores for that game in localStorage
     userScores.push(newScore);
+    localStorage.setItem(gameScoresKey, JSON.stringify(userScores));
+
+    // insert the new score, sort, and then slice it
+    let gameHighScoresKey = gameNameField.value.toLowerCase() + "HighScores";
+    console.log(gameHighScoresKey)
+    let gameHighScores = JSON.parse(localStorage.getItem(gameHighScoresKey) || "[]");
+
+    gameHighScores.push(newScore);
+    gameHighScores.sort((score1, score2) => score2.score - score1.score); // sort in descending order, so highest is first
+    if (gameHighScores.length > 3) {
+        gameHighScores.pop()
+    }
+    localStorage.setItem(gameHighScoresKey, JSON.stringify(gameHighScores))
+
     alert("Score added!")
     form.reset()
 
-    // update the array of scores for that game in localStorage
-    localStorage.setItem(gameScoresKey, JSON.stringify(userScores));
+    
+    
+    
+    // TODO: maybe also keep separate arrays of the top three scores for each game
+    // would keep it from needing to be sorted each time, and adds only a little space
+    // then could just access that from the profile, and if not three scores, then add -----
 
 }
 

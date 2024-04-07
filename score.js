@@ -13,27 +13,37 @@ async function addScore() {
     const username = localStorage.getItem("userName");
 
     let form = document.getElementById("add-score-form");
-    for (el in form.elements) {
-        console.log(el);
-        console.log(el.nodeValue);
-    }
-
-    let userScores = JSON.parse(localStorage.getItem("userScores") || "[]");
+    // for (el in form.elements) {
+    //     console.log(el);
+    //     console.log(el.nodeValue);
+    // }
+    console.log(gameNameField.value.toLowerCase())
+    console.log(gameNameField.value.toLowerCase() + "Scores")
+    let gameScoresKey = gameNameField.value.toLowerCase() + "Scores"
+    // make this instead an array of scores for that game specifically
+    let userScores = JSON.parse(localStorage.getItem(gameScoresKey) || "[]");
 
     let newScore = new Score(username, gameNameField.value, playerNameField.value,
         scoreField.value, dateField.value);
 
-    // newScore.
+    // check if any of the values are null
+    // if yes, then alert that that value needs to be filled
+    // then just return
+    // otherwise add the score, alert, and reset the form
+    for (property in newScore) {
+        // console.log(property)
+        if (newScore[property] === "") {
+            alert(property.charAt(0).toUpperCase() + property.slice(1) + " missing");
+            return;
+        }
+    }
 
     userScores.push(newScore);
+    alert("Score added!")
+    form.reset()
 
-    // send an alert if they didn't fill out one of the values
-    // then would need to keep the function open so that it can be filled
-    //alert()
-
-    localStorage.setItem('userScores', JSON.stringify(userScores));
-    
-    // once the score is successfully added, clear the fields - all of them? or all minus game?
+    // update the array of scores for that game in localStorage
+    localStorage.setItem(gameScoresKey, JSON.stringify(userScores));
 
 }
 

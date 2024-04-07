@@ -5,7 +5,7 @@
 
 async function addScore() {
     // get the values for game, player, score, date, and username should already be in localStorage
-    console.log("adding score");
+    // console.log("adding score");
     const gameNameField = document.getElementById("game-name-field");
     const playerNameField = document.getElementById("player-name-field");
     const scoreField = document.getElementById("score-field");
@@ -13,12 +13,8 @@ async function addScore() {
     const username = localStorage.getItem("userName");
 
     let form = document.getElementById("add-score-form");
-    // for (el in form.elements) {
-    //     console.log(el);
-    //     console.log(el.nodeValue);
-    // }
-    console.log(gameNameField.value.toLowerCase())
-    console.log(gameNameField.value.toLowerCase() + "Scores")
+    // console.log(gameNameField.value.toLowerCase())
+    // console.log(gameNameField.value.toLowerCase() + "Scores")
     let gameScoresKey = gameNameField.value.toLowerCase() + "Scores"
     // make this instead an array of scores for that game specifically
     let userScores = JSON.parse(localStorage.getItem(gameScoresKey) || "[]");
@@ -44,7 +40,7 @@ async function addScore() {
 
     // insert the new score, sort, and then slice it
     let gameHighScoresKey = gameNameField.value.toLowerCase() + "HighScores";
-    console.log(gameHighScoresKey)
+    // console.log(gameHighScoresKey)
     let gameHighScores = JSON.parse(localStorage.getItem(gameHighScoresKey) || "[]");
 
     gameHighScores.push(newScore);
@@ -56,13 +52,6 @@ async function addScore() {
 
     alert("Score added!")
     form.reset()
-
-    
-    
-    
-    // TODO: maybe also keep separate arrays of the top three scores for each game
-    // would keep it from needing to be sorted each time, and adds only a little space
-    // then could just access that from the profile, and if not three scores, then add -----
 
 }
 
@@ -81,10 +70,6 @@ class Score {
         this.date = date;
     }
 
-    // checkAllValues() {
-    // could use this to make sure all values are non-null
-    //     console.log('here');
-    // }
 
 }
 

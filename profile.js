@@ -3,16 +3,12 @@ function getPlayerName() {
 };
 
 
-
 // when the page loads in: 
 // should get the player name, and display it
 // should find the games associated with that player and display them
 // should find the scores associated with each game and display the top 3
-// 
 
 function displayScores(game) {
-    // for each game the player has in their profile
-    // get all the scores and keep just the first three
     let gameHighScoresKey = game.title.toLowerCase() + "HighScores";
     let gameHighScores = JSON.parse(localStorage.getItem(gameHighScoresKey) || "[]")
     // the table that everything gets attached to
@@ -82,9 +78,9 @@ function loadProfile() {
     // want to use setAttribute("id", "wingspan-username") to set attributes and be able to access elements later
     // for (const [i, gameName] of games.entries()) {
     games.forEach(game => {
-        console.log(game)
+        // console.log(game)
         let gameObject = JSON.parse(localStorage.getItem(game))
-        console.log(gameObject);
+        // console.log(gameObject);
 
         displayGame(gameObject);
         displayScores(gameObject);
@@ -181,11 +177,6 @@ function displayGame(game) {
 
 
 }
-
-// function displayScores(game) {
-//     // get the scores, display the three highest in the localStorage
-//     // if they don't have three for a game, still insert the row, but with "-----" for each value
-// }
 
 const usernameEl = document.querySelector('#username');
 usernameEl.textContent = this.getPlayerName();

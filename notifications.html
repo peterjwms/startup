@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <!-- Tell browsers not to scale the viewport automatically -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>OnBoard</title>
-        <!-- <link rel="icon" href="favicon.ico" /> -->
 
-        <link rel="stylesheet" href="main.css" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-            crossorigin="anonymous"
-        />
-        <link rel="stylesheet" href="notifications.css" />
+<head>
+    <meta charset="UTF-8" />
+    <!-- Tell browsers not to scale the viewport automatically -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OnBoard</title>
+    <!-- <link rel="icon" href="favicon.ico" /> -->
 
-    </head>
-    <body>
-        <header class="container-fluid">
-            <!-- Navigation elements -->
-            <nav class="navbar fixed-top navbar-dark">
-                <div class="navbar-brand">OnBoard</div>
-                <menu class="navbar-nav">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="profile.html" class="nav-link">Profile</a></li>
-                    <li><a href="notifications.html" class="nav-link active">Activity</a></li>
-                    <li><a href="search.html" class="nav-link">Search</a></li>
-                </menu>
-            </nav>
-        </header>
-        <main class="container-fluid">
-            <div id="activity-holder">
+    <link rel="stylesheet" href="main.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <link rel="stylesheet" href="notifications.css" />
+
+</head>
+
+<body>
+    <header class="container-fluid">
+        <!-- Navigation elements -->
+        <nav class="navbar fixed-top navbar-dark">
+            <div class="navbar-brand">OnBoard</div>
+            <menu class="navbar-nav">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><a href="notifications.html" class="nav-link active">Activity</a></li>
+                <li><a href="search.html" class="nav-link">Search</a></li>
+            </menu>
+        </nav>
+    </header>
+    <main class="container-fluid">
+        <div id="activity-holder">
+            <div id="games-notifs">
                 <h1>Games</h1>
                 <hr>
-                <ul>
-                    <li>Username456 added Wingspan to their games!</li>
-                    <li>Username789 added Everdell to their games!</li>
+                <ul id="games-notifs-list">
+                    <!-- <li>Username456 added Wingspan to their games!</li>
+                    <li>Username789 added Everdell to their games!</li> -->
                 </ul>
+            </div>
+            <div id="scores-notifs">
                 <hr>
                 <h1>Scores</h1>
                 <hr>
-                <ul>
-                    <li>Username456 added a high score of 154 to Wingspan!</li>
-                    <li>Username789 added a high score of 45 to Parks!</li>
+                <ul id="scores-notifs-list">
+                    <!-- <li>Username456 added a high score of 154 to Wingspan!</li>
+                    <li>Username789 added a high score of 45 to Parks!</li> -->
                 </ul>
                 <hr>
             </div>
+        </div>
 
-            
-        </main>
-        <footer class="container-fluid">
-            <span>Peter Williams</span>
-            <a href="https://github.com/peterjwms/startup" target="_blank">GitHub</a>
-        </footer>
-    </body>
+
+    </main>
+    <footer class="container-fluid">
+        <span>Peter Williams</span>
+        <a href="https://github.com/peterjwms/startup" target="_blank">GitHub</a>
+    </footer>
+    <script src="notifications.js"></script>
+</body>
+
 </html>

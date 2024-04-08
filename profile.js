@@ -57,7 +57,7 @@ function displayScores(game) {
         scoreUsernameTd.textContent = "--------";
         scorePlayerNameTd.textContent = "------";
         scoreScoreTd.textContent = "---";
-        scoreDateTd.textContent = "--------";
+        scoreDateTd.textContent = "------";
 
         scoreRow.appendChild(scoreCountTd);
         scoreRow.appendChild(scoreUsernameTd);

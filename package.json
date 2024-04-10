@@ -2,11 +2,14 @@
   "name": "startup",
   "version": "1.0.0",
   "description": "IP address: `44.217.89.189`",
-  "main": "database.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }

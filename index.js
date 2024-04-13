@@ -12,12 +12,25 @@ var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 // getGames
+apiRouter.get('/games', (_req, res) => {
+    
+    res.send(games);
+});
 
 // getScores
+apiRouter.get('/scores', (_req, res) => {
+    res.send(scores);
+})
 
 // addGame
+apiRouter.post('/game', (req, res) => {
+    console.log('game');
+});
 
 // addScore
+apiRouter.post('/score', (req, res) => {
+    console.log('score');
+});
 
 // search?? this is the third-party API
 // probably just goes into search.js - use simon-service/about.js as template
@@ -29,3 +42,5 @@ app.use((_req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+let games = [];

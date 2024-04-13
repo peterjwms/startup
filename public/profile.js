@@ -1,5 +1,5 @@
 function getPlayerName() {
-    return localStorage.getItem('userName') ?? 'Mystery player';
+    return localStorage.getItem('userName') ?? 'Unknown user';
 };
 
 
@@ -73,20 +73,26 @@ function displayScores(game) {
 
 }
 
-function loadProfile() {
-    let games = JSON.parse(localStorage.getItem('userGames') || "[]");
-    // want to use setAttribute("id", "wingspan-username") to set attributes and be able to access elements later
-    // for (const [i, gameName] of games.entries()) {
+async function loadProfile() {
+    let games = [];
+    try {
+        const response = await fetch('/api/games');
+        games = await response.json();
+
+        localStorage.setItem('userGames', JSON.stringify(games));
+    }
+    catch {
+        games = JSON.parse(localStorage.getItem('userGames') || "[]");
+    }
+
     games.forEach(game => {
-        // console.log(game)
+        
         let gameObject = JSON.parse(localStorage.getItem(game))
-        // console.log(gameObject);
 
         displayGame(gameObject);
         displayScores(gameObject);
     });
         
-    // }
 }
 
 function displayGame(game) {

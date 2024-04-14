@@ -5,10 +5,10 @@
 
 async function generateNotifications() {
     const response = await fetch('/api/games');
-    const userGames = await response.json();
+    const games = await response.json();
 
     // const userGames = JSON.parse(localStorage.getItem("userGames"))
-
+    const userGames = Object.values(games);
 
     setInterval(() => {
         // randomly pick game or score based on 0 or 1 random number

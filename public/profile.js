@@ -95,7 +95,7 @@ async function loadProfile() {
         const highScores = await response2.json();
         console.log(highScores);
         
-        games.forEach(game => {
+        Object.values(games).forEach(game => {
             displayGame(game);
             console.log(game);
             console.log(game.title.toLowerCase());
@@ -112,7 +112,7 @@ async function loadProfile() {
         // use the localStorage if fetch fails
         games = JSON.parse(localStorage.getItem('userGames') || "[]");
         
-        games.forEach(game => {
+        Object.values(games).forEach(game => {
         
             let gameObject = JSON.parse(localStorage.getItem(game));
     

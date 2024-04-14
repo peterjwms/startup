@@ -27,17 +27,18 @@ async function addScore() {
         }
     }
 
-    // try {
-    //     const response = await fetch('/api/games');
-    //     const games = await response.json();
-    //     if (!games[newScore.title]) {
-    //         alert("Game not found");
-    //         return;
-    //     }
-    // }
-    // catch (error) {
-    //     console.error(error);
-    // }
+    try {
+        const response = await fetch('/api/games');
+        const games = await response.json();
+        console.log(games);
+        if (!(gameNameField.value.toLowerCase() in games)) {
+            alert("Game not found in profile. Please add the game to your profile first.");
+            return;
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
 
 
     // send back the new score to the server

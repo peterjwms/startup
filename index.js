@@ -67,7 +67,7 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-let games = {};
+let games = [];
 let scores = {}; // this needs to be an object of gameScores: [scores] objects
 let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
 

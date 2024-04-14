@@ -1,5 +1,10 @@
 function getPlayerName() {
-    return localStorage.getItem('userName') ?? 'Unknown user';
+    let userName = localStorage.getItem('userName');
+    if (userName === null || userName === "") {
+        userName = "Unknown user";
+        localStorage.setItem('userName', userName);
+    }
+    return userName;
 };
 
 

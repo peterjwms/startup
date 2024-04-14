@@ -1,48 +1,32 @@
-// this will be a placeholder for 3rd party API call for now
-// when search, it will do that search on BGG's API and return their results
-// I'll parse their XML into the game objects
-
 async function search() {
     // this should just take whatever the user puts into the search bar 
     // then pass it to the BGG API
-    // then parse the response into search results
-
-    // for now it should take their search
-    // then generate several possible game objects
-    // also generates a new button object for each game
+    // then parse the response into search results and add buttons to add the game to the user's profile if not already there
 
     const searchBarEl = document.querySelector("#search-bar");
-    localStorage.setItem("searchValue", searchBarEl.value);
+    const searchKey = searchBarEl.value;
+    localStorage.setItem("searchValue", searchKey);
 
+    // clear the table
     const tableBodyEl = document.querySelector('#results-table-body')
     while (tableBodyEl.firstChild) {
         tableBodyEl.firstChild.remove()
     }
 
-
-    // this is where the API call will go instead of making up results
-
-    let results = []
-    // make up several games
-    results.push(new Game("Wingspan", 2019, "Stonemaier Games",
-        "Attract a beautiful and diverse collection of birds to your wildlife preserve.",
-        "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"));
-
-    results.push(new Game("Azul", 2017, "Next Move Games",
-        "Artfully embellish the walls of your palace by drafting the most beautiful tiles.",
-        "https://cf.geekdo-images.com/aPSHJO0d0XOpQR5X-wJonw__imagepage/img/q4uWd2nXGeEkKDR8Cc3NhXG9PEU=/fit-in/900x600/filters:no_upscale():strip_icc()/pic6973671.png"))
-
-    results.push(new Game("7 Wonders", 2010, "Repos Production",
-        "Draft cards to develop your ancient civilization and build its Wonder of the World.",
-        "https://cf.geekdo-images.com/35h9Za_JvMMMtx_92kT0Jg__imagepage/img/WKlTys0Dc3F6x9r05Fwyvs82tz4=/fit-in/900x600/filters:no_upscale():strip_icc()/pic7149798.jpg"))
+    // third-party API calls
+    const searchIds = await getSearchIds(searchKey);
+    const results = await getGameData(searchIds);
 
     let userGames = []
 
-    if (localStorage.getItem('userGames') === null) {
-        localStorage.setItem('userGames', JSON.stringify(userGames));
+    // TODO: get the user's games from the server, if fails, check localStorage
+    try {
+        const response = await fetch('/api/games');
+        userGames = await response.json();
     }
-    else {
-        userGames = localStorage.getItem('userGames');
+    catch (error) {
+        console.error(error);
+        userGames = JSON.parse(localStorage.getItem('userGames') || "[]");
     }
 
     // then add all the elements
@@ -94,6 +78,55 @@ async function search() {
 
 }
 
+async function getSearchIds(searchKey) {
+    // Fetch the XML data from the external API
+    const response = await fetch('https://boardgamegeek.com/xmlapi2/search?query=' + searchKey + '&type=boardgame');
+    const xmlString = await response.text();
+
+    // Parse the XML string into a DOM tree
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+    // Extract data from the XML document
+    const gameNodes = xmlDoc.getElementsByTagName('item');
+    let searchIds = [];
+    for (let i = 0; i < gameNodes.length; i++) {
+        const id = gameNodes[i].getAttribute('id');
+        searchIds.push(id);
+    };
+
+    return searchIds;
+}
+
+async function getGameData(searchIds) {
+    const response = await fetch('https://boardgamegeek.com/xmlapi2/thing?id=' + searchIds.join(','));
+    const xmlString = await response.text();
+
+    // Parse the XML string into a DOM tree
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+    // Extract data from the XML document
+    const gameNodes = xmlDoc.getElementsByTagName('item');
+    let results = [];
+
+    // for each game node, create a game object and add it to the results array
+    for (let i = 0; i < gameNodes.length; i++) {
+        const gameNode = gameNodes[i];
+        const title = gameNode.querySelector('name')?.getAttribute('value') || 'Unknown';
+        const year = gameNode.querySelector('yearpublished')?.getAttribute('value') || 'Unknown';
+        const publisher = gameNode.querySelector('boardgamepublisher')?.textContent || 'Unknown';
+        const description = gameNode.querySelector('description')?.textContent || 'Unknown';
+        const thumbnail = gameNode.querySelector('thumbnail')?.textContent;
+        const image = gameNode.querySelector('image')?.textContent;
+
+        const game = new Game(title, year, publisher, description, thumbnail, image);
+        results.push(game);
+    }
+
+    return results;
+}
+
 async function addGame(gameString, id) {
     // figure out how to get the button press value so I know where to pull the data from
 
@@ -134,12 +167,14 @@ class Game {
     publisher;
     description;
     thumbnail;
+    image;
 
-    constructor(title, year, publisher, description, thumbnail) {
+    constructor(title, year, publisher, description, thumbnail, image) {
         this.title = title;
         this.year = year;
         this.publisher = publisher;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.image = image;
     }
 }

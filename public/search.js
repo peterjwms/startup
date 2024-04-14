@@ -97,7 +97,6 @@ async function addGame(gameString, id) {
     // figure out how to get the button press value so I know where to pull the data from
 
     let games = [];
-    games = JSON.parse(localStorage.getItem('userGames'));
 
     try {
         const response = await fetch('/api/game', {
@@ -110,6 +109,8 @@ async function addGame(gameString, id) {
         localStorage.setItem('userGames', JSON.stringify(games));
     }
     catch {
+        games = JSON.parse(localStorage.getItem('userGames'));
+
         games.push(gameString.title)
         games.sort()
 

@@ -74,7 +74,7 @@ function displayScores(game) {
 }
 
 async function loadProfile() {
-    let games = [];
+    // let games = [];
     try {
         const response = await fetch('/api/games');
         games = await response.json();
@@ -166,12 +166,6 @@ function displayGame(game) {
     gameScoresHeadRow.appendChild(dateEl);
     gameScoresTableHead.appendChild(gameScoresHeadRow);
     gameScoresTable.appendChild(gameScoresTableHead);
-
-
-
-    // generate some bogus scores here???
-    // for each of three high scores
-    //      create and append a row
 
     gameScoresTableContainer.appendChild(gameScoresTable);
     gameScoresTd.appendChild(gameScoresTableContainer);

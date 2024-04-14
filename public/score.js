@@ -3,8 +3,6 @@
 // probably have an array of scores for each game that includes an object for each score
 // need to somehow sort through by score so just the highest scores are shown
 
-const { response } = require("express");
-
 async function addScore() {
     // get the values for game, player, score, date, and username should already be in localStorage
     const gameNameField = document.getElementById("game-name-field");
@@ -15,7 +13,7 @@ async function addScore() {
 
     let form = document.getElementById("add-score-form");
     
-    let newScore = new Score(username, gameNameField.value, playerNameField.value,
+    let newScore = new Score(username, gameNameField.value.toLowerCase(), playerNameField.value,
         scoreField.value, dateField.value);
 
     // check if any of the values are null
@@ -29,6 +27,19 @@ async function addScore() {
         }
     }
 
+    // try {
+    //     const response = await fetch('/api/games');
+    //     const games = await response.json();
+    //     if (!games[newScore.title]) {
+    //         alert("Game not found");
+    //         return;
+    //     }
+    // }
+    // catch (error) {
+    //     console.error(error);
+    // }
+
+
     // send back the new score to the server
     // take care of high scores on the server side
     try {
@@ -37,13 +48,23 @@ async function addScore() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                gameTitle: gameNameField.value,
-                score: newScore,
-            }),
+            body: JSON.stringify(newScore),
         });
+        // const scores = await response.json();
+
+        if (!response.ok) {
+            alert('Failed to add score');
+        }
+        else {
+            alert('Score added!');
+            console.log(newScore);
+
+            form.reset();
+        }
+
     }
-    catch {
+    catch (error) {
+        console.error(error);
         // if the fetch fails, then just add the score to localStorage
         let gameScoresKey = gameNameField.value.toLowerCase() + "Scores";
         let userScores = JSON.parse(localStorage.getItem(gameScoresKey) || "[]");
@@ -62,14 +83,12 @@ async function addScore() {
             gameHighScores.pop()
         }
         localStorage.setItem(gameHighScoresKey, JSON.stringify(gameHighScores))
-    }
-    if (!response.ok) {
-        alert('Failed to add score');
-    }
-    else {
+        
         alert('Score added!');
         form.reset();
+    
     }
+    
 }
 
 class Score {
@@ -86,8 +105,6 @@ class Score {
         this.score = score;
         this.date = date;
     }
-
-
 }
 
 // TODO: set the game name from the profile page, depending on which one was clicked

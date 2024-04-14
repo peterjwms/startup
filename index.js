@@ -22,12 +22,18 @@ apiRouter.get('/scores', (_req, res) => {
     res.send(scores);
 })
 
+// getHighScores
+apiRouter.get('/highScores', (_req, res) => {
+    res.send(highScores);
+})
+
 // addGame
 apiRouter.post('/game', (req, res) => {
     console.log(req.body);
     const game = req.body;
-    if (!games[game.title]) {
-        games[game.title] = game;
+    const title = game.title.toLowerCase();
+    if (!games[title]) {
+        games[title] = game;
     }
     games.sort()
     res.send(games);
@@ -35,14 +41,15 @@ apiRouter.post('/game', (req, res) => {
 
 // addScore
 apiRouter.post('/score', (req, res) => {
-    const {title, score} = req.body;
-
+    const score = req.body;
+    const title = score.title.toLowerCase();
+    console.log(req.body);
     if (!scores[title]) {
         scores[title] = [];
     }
 
     scores[title].push(score);
-
+    highScores = updateHighScores(title, score);
     console.log('score');
     res.send(scores);
 });
@@ -61,3 +68,15 @@ app.listen(port, () => {
 let games = [];
 let scores = []; // this needs to be an array of gameScores: [scores] objects
 let highScores = []; // this needs to be an array of gameScores: [highScores] objects
+
+function updateHighScores(title, score) {
+    if (!highScores[title]) {
+        highScores[title] = [];
+    }
+    highScores[title].push(score);
+    highScores[title].sort((a, b) => b.score - a.score);
+    if (highScores[title].length > 3) {
+        highScores[title].pop();
+    }
+    return highScores;
+}

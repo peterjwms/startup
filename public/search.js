@@ -69,6 +69,7 @@ async function search() {
             addGameButtonEl.textContent = "Add";
             // check if the game is in localStorage already - if so, disable the button
             if (userGames.includes(game.title)) {
+                // TODO: check if the game is already in the user's games on the server?
                 addGameButtonEl.disabled = true;
             }
 
@@ -108,7 +109,8 @@ async function addGame(gameString, id) {
         const games = await response.json();
         localStorage.setItem('userGames', JSON.stringify(games));
     }
-    catch {
+    catch (error) {
+        console.error(error);
         games = JSON.parse(localStorage.getItem('userGames'));
 
         games.push(gameString.title)
@@ -123,7 +125,6 @@ async function addGame(gameString, id) {
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
 
-    // TODO: need to maybe adjust this so that it adds to a list of games the user has
 }
 
 class Game {

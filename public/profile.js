@@ -8,9 +8,14 @@ function getPlayerName() {
 // should find the games associated with that player and display them
 // should find the scores associated with each game and display the top 3
 
-function displayScores(game) {
-    let gameHighScoresKey = game.title.toLowerCase() + "HighScores";
-    let gameHighScores = JSON.parse(localStorage.getItem(gameHighScoresKey) || "[]")
+function displayScores(gameHighScores, game) {
+    // let gameHighScoresKey = game.title.toLowerCase() + "HighScores";
+    // let gameHighScores = JSON.parse(localStorage.getItem(gameHighScoresKey) || "[]")
+    // if the gameHighScores are not already defined, then get them from localStorage
+    if (gameHighScores === undefined) {
+        gameHighScores = JSON.parse(localStorage.getItem(game.title.toLowerCase() + "HighScores") || "[]");
+    }
+    
     // the table that everything gets attached to
     const gameScoresTd = document.getElementById(game.title + "-scores-table");
 
@@ -80,9 +85,14 @@ async function loadProfile() {
         games = await response.json();
         console.log(games);
 
+        const response2 = await fetch('/api/highScores');
+        const highScores = await response2.json();
+        console.log(highScores);
+        
         games.forEach(game => {
             displayGame(game);
-            displayScores(game);
+            const gameHighScores = highScores[game.title];
+            displayScores(gameHighScores, game);
         });
 
         localStorage.setItem('userGames', JSON.stringify(games));
@@ -95,10 +105,10 @@ async function loadProfile() {
         
         games.forEach(game => {
         
-            let gameObject = JSON.parse(localStorage.getItem(game))
+            let gameObject = JSON.parse(localStorage.getItem(game));
     
             displayGame(gameObject);
-            displayScores(gameObject);
+            displayScores(undefined, gameObject);
         });
     }        
 }

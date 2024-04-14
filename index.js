@@ -13,8 +13,8 @@ app.use('/api', apiRouter);
 
 // getGames
 apiRouter.get('/games', (_req, res) => {
-    
-    res.send(games);
+    console.log(games);
+    res.send(Object.values(games));
 });
 
 // getScores
@@ -24,15 +24,27 @@ apiRouter.get('/scores', (_req, res) => {
 
 // addGame
 apiRouter.post('/game', (req, res) => {
-    console.log('game');
-    games.push(req.body.title)
+    console.log(req.body);
+    const game = req.body;
+    if (!games[game.title]) {
+        games[game.title] = game;
+    }
     games.sort()
     res.send(games);
 });
 
 // addScore
 apiRouter.post('/score', (req, res) => {
+    const {title, score} = req.body;
+
+    if (!scores[title]) {
+        scores[title] = [];
+    }
+
+    scores[title].push(score);
+
     console.log('score');
+    res.send(scores);
 });
 
 // search?? this is the third-party API

@@ -74,25 +74,33 @@ function displayScores(game) {
 }
 
 async function loadProfile() {
-    // let games = [];
+    let games = [];
     try {
         const response = await fetch('/api/games');
         games = await response.json();
+        console.log(games);
+
+        games.forEach(game => {
+            displayGame(game);
+            displayScores(game);
+        });
 
         localStorage.setItem('userGames', JSON.stringify(games));
     }
-    catch {
+    catch (error) {
+        console.error(error);
+
+        // use the localStorage if fetch fails
         games = JSON.parse(localStorage.getItem('userGames') || "[]");
-    }
-
-    games.forEach(game => {
         
-        let gameObject = JSON.parse(localStorage.getItem(game))
-
-        displayGame(gameObject);
-        displayScores(gameObject);
-    });
+        games.forEach(game => {
         
+            let gameObject = JSON.parse(localStorage.getItem(game))
+    
+            displayGame(gameObject);
+            displayScores(gameObject);
+        });
+    }        
 }
 
 function displayGame(game) {

@@ -25,6 +25,9 @@ apiRouter.get('/scores', (_req, res) => {
 // addGame
 apiRouter.post('/game', (req, res) => {
     console.log('game');
+    games.push(req.body.title)
+    games.sort()
+    res.send(games);
 });
 
 // addScore
@@ -44,3 +47,5 @@ app.listen(port, () => {
 });
 
 let games = [];
+let scores = []; // this needs to be an array of gameScores: [scores] objects
+let highScores = []; // this needs to be an array of gameScores: [highScores] objects

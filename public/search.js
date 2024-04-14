@@ -18,23 +18,23 @@ async function search() {
     while (tableBodyEl.firstChild) {
         tableBodyEl.firstChild.remove()
     }
-    
+
 
     // this is where the API call will go instead of making up results
-    
+
     let results = []
     // make up several games
-    results.push(new Game("Wingspan", 2019, "Stonemaier Games", 
-    "Attract a beautiful and diverse collection of birds to your wildlife preserve.",
-    "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"));
-    
-    results.push( new Game("Azul", 2017, "Next Move Games", 
-    "Artfully embellish the walls of your palace by drafting the most beautiful tiles.",
-    "https://cf.geekdo-images.com/aPSHJO0d0XOpQR5X-wJonw__imagepage/img/q4uWd2nXGeEkKDR8Cc3NhXG9PEU=/fit-in/900x600/filters:no_upscale():strip_icc()/pic6973671.png"))    
-    
+    results.push(new Game("Wingspan", 2019, "Stonemaier Games",
+        "Attract a beautiful and diverse collection of birds to your wildlife preserve.",
+        "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg"));
+
+    results.push(new Game("Azul", 2017, "Next Move Games",
+        "Artfully embellish the walls of your palace by drafting the most beautiful tiles.",
+        "https://cf.geekdo-images.com/aPSHJO0d0XOpQR5X-wJonw__imagepage/img/q4uWd2nXGeEkKDR8Cc3NhXG9PEU=/fit-in/900x600/filters:no_upscale():strip_icc()/pic6973671.png"))
+
     results.push(new Game("7 Wonders", 2010, "Repos Production",
-    "Draft cards to develop your ancient civilization and build its Wonder of the World.",
-    "https://cf.geekdo-images.com/35h9Za_JvMMMtx_92kT0Jg__imagepage/img/WKlTys0Dc3F6x9r05Fwyvs82tz4=/fit-in/900x600/filters:no_upscale():strip_icc()/pic7149798.jpg"))
+        "Draft cards to develop your ancient civilization and build its Wonder of the World.",
+        "https://cf.geekdo-images.com/35h9Za_JvMMMtx_92kT0Jg__imagepage/img/WKlTys0Dc3F6x9r05Fwyvs82tz4=/fit-in/900x600/filters:no_upscale():strip_icc()/pic7149798.jpg"))
 
     let userGames = []
 
@@ -63,7 +63,7 @@ async function search() {
             publisherTdEl.textContent = game.publisher;
             descriptionTdEl.textContent = game.description;
 
-            addGameButtonEl.className="btn btn-primary";
+            addGameButtonEl.className = "btn btn-primary";
             addGameButtonEl.id = game.title + "-add-button"
             addGameButtonEl.setAttribute("onclick", "addGame(" + JSON.stringify(game) + ", this.id)");
             addGameButtonEl.textContent = "Add";
@@ -99,12 +99,25 @@ async function addGame(gameString, id) {
     let games = [];
     games = JSON.parse(localStorage.getItem('userGames'));
 
-    //TODO: maybe adjust this so it's more efficient than sorting every time
-    games.push(gameString.title)
-    games.sort()
+    try {
+        const response = await fetch('/api/game', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(gameString),
+        });
 
-    localStorage.setItem(gameString.title, JSON.stringify(gameString));
-    localStorage.setItem('userGames', JSON.stringify(games))
+        const games = await response.json();
+        localStorage.setItem('userGames', JSON.stringify(games));
+    }
+    catch {
+        games.push(gameString.title)
+        games.sort()
+
+        localStorage.setItem(gameString.title, JSON.stringify(gameString));
+        localStorage.setItem('userGames', JSON.stringify(games));
+    }
+
+    //TODO: maybe adjust this so it's more efficient than sorting every time
 
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;

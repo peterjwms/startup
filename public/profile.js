@@ -86,12 +86,16 @@ async function loadProfile() {
         console.log(games);
 
         const response2 = await fetch('/api/highScores');
+        console.log(response2);
         const highScores = await response2.json();
         console.log(highScores);
         
         games.forEach(game => {
             displayGame(game);
-            const gameHighScores = highScores[game.title];
+            console.log(game);
+            console.log(game.title.toLowerCase());
+            const gameHighScores = highScores[game.title.toLowerCase()];
+            console.log(gameHighScores);
             displayScores(gameHighScores, game);
         });
 

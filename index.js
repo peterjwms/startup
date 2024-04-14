@@ -13,7 +13,7 @@ app.use('/api', apiRouter);
 
 // getGames
 apiRouter.get('/games', (_req, res) => {
-    console.log(games);
+    // console.log(games);
     res.send(Object.values(games));
 });
 
@@ -24,6 +24,8 @@ apiRouter.get('/scores', (_req, res) => {
 
 // getHighScores
 apiRouter.get('/highScores', (_req, res) => {
+    console.log(highScores);
+    console.log(typeof highScores);
     res.send(highScores);
 })
 
@@ -35,7 +37,7 @@ apiRouter.post('/game', (req, res) => {
     if (!games[title]) {
         games[title] = game;
     }
-    games.sort()
+    // games.sort()
     res.send(games);
 });
 
@@ -65,9 +67,9 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-let games = [];
-let scores = []; // this needs to be an array of gameScores: [scores] objects
-let highScores = []; // this needs to be an array of gameScores: [highScores] objects
+let games = {};
+let scores = {}; // this needs to be an object of gameScores: [scores] objects
+let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
 
 function updateHighScores(title, score) {
     if (!highScores[title]) {

@@ -157,7 +157,7 @@ function displayGame(game) {
     const gameScoreHeader = document.createElement('span');
     gameScoreHeader.textContent = 'Scores';
     const addScoreLinkEl = document.createElement('a');
-    addScoreLinkEl.href = "score.html";
+    addScoreLinkEl.href = "score.html?game=" + encodeURIComponent(game.title);
     addScoreLinkEl.textContent = "Add score";
 
     gameScoreHeaderTd.appendChild(gameScoreHeader);

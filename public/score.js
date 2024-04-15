@@ -18,7 +18,7 @@ async function addScore() {
 
     // check if any of the values are null
     // if yes, then alert that that value needs to be filled
-    // then just return
+    // then just return so that the form is not reset
     // otherwise add the score, alert, and reset the form
     for (property in newScore) {
         if (newScore[property] === "") {
@@ -109,4 +109,8 @@ class Score {
 }
 
 // TODO: set the game name from the profile page, depending on which one was clicked
-// 
+let urlParams = new URLSearchParams(window.location.search);
+let gameTitle = urlParams.get('game');
+
+let gameField = document.getElementById("game-name-field");
+gameField.value = decodeURIComponent(gameTitle);

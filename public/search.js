@@ -70,7 +70,7 @@ async function search() {
         }
     }
     else {
-        tableBodyEl.innerHTML = '<tr><td colSpan=6>Search for a game</td></tr>';
+        tableBodyEl.innerHTML = '<tr><td colSpan=6>No results found</td></tr>';
     }
 
 }

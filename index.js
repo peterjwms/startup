@@ -56,9 +56,6 @@ apiRouter.post('/score', (req, res) => {
     res.send(scores);
 });
 
-// search?? this is the third-party API
-// probably just goes into search.js - use simon-service/about.js as template
-
 app.use((_req, res) => {
     res.sendFile('index.html', {root: 'public'});
 });

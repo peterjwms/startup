@@ -52,10 +52,7 @@ async function search() {
             addGameButtonEl.setAttribute("onclick", "addGame(" + JSON.stringify(game) + ", this.id)");
             addGameButtonEl.textContent = "Add";
             // check if the game is in localStorage already - if so, disable the button
-            if (userGames.includes(game.title)) {
-                // TODO: check if the game is already in the user's games on the server?
-                addGameButtonEl.disabled = true;
-            }
+            game.title.toLowerCase() in userGames ? addGameButtonEl.disabled = true : addGameButtonEl.disabled = false;
 
             const rowEl = document.createElement('tr');
 

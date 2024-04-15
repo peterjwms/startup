@@ -78,3 +78,15 @@ For this deliverable, I styled my application using CSS and Bootstrap
   - 20% JavaScript support for future database data. - JS that allows user to add games to profile, and scores for added games; all stored in localStorage currently, and injected into the DOM dynamically
   - 20% JavaScript support for future WebSocket. - realtime data mocked with random() and setInterval on the notifications page (Activity) showing games and scores that fake users recently added 
   - 40% JavaScript support for your application's functionality. - overall functionality for JS with adding games, scores, searching for games, viewing dynamically updated profile
+
+## Service Deliverable
+- DONE **Prerequisite**: Simon Service deployed to your production environment
+- DONE **Prerequisite**: A link to your GitHub startup repository prominently displayed on your application's home page
+- DONE **Prerequisite**: Notes in your startup Git repository README.md file documenting what you modified and added with this deliverable. The TAs will only grade things that have been clearly described as being completed. Review the [voter app](https://github.com/webprogramming260/startup-example) as an example.
+- DONE **Prerequisite**: At least 10 git commits spread consistently throughout the assignment period.
+- Backend web service support and interaction
+  - 40% - Create an HTTP service using Node.js and Express - HTTP service created with node.js and express
+  - 10% - Frontend served up using Express static middleware - frontend served up using express
+  - 10% - Your frontend calls third party service endpoints - search.js calls boardgamegeek endpoints to search and get game data
+  - 20% - Your backend provides service endpoints - index.js provides service endpoints to add and get games and scores
+  - 20% - Your frontend calls your service endpoints - frontend code calls service endpoints, especially for the places where it was previously pulling from localStorage

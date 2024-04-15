@@ -17,12 +17,13 @@ async function generateNotifications() {
         const usernameString = "user" + usernameNum;
 
         const game = userGames[Math.floor(Math.random() * userGames.length)]
+        const title = game ? game.title : "Unknown";
 
         if (decider === 1) {
             // add a notification for adding a game
             const listEl = document.getElementById("games-notifs-list");
             const newListEl = document.createElement('li');
-            newListEl.textContent = `${usernameString} added ${game.title} to their games!`
+            newListEl.textContent = `${usernameString} added ${title} to their games!`
             listEl.appendChild(newListEl);
         }
         else {
@@ -30,7 +31,7 @@ async function generateNotifications() {
             const listEl = document.getElementById("scores-notifs-list");
             const score = Math.floor(Math.random() * 150);
             const newListEl = document.createElement('li');
-            newListEl.textContent = `${usernameString} scored ${score} in ${game.title}!`
+            newListEl.textContent = `${usernameString} scored ${score} in ${title}!`
             listEl.appendChild(newListEl);
         }
     }, 5000);

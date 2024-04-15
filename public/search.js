@@ -115,7 +115,8 @@ async function getGameData(searchIds) {
         const title = gameNode.querySelector('name')?.getAttribute('value') || 'Unknown';
         const year = gameNode.querySelector('yearpublished')?.getAttribute('value') || 'Unknown';
         const publisher = gameNode.querySelector('boardgamepublisher')?.textContent || 'Unknown';
-        const description = gameNode.querySelector('description')?.textContent || 'Unknown';
+        let description = gameNode.querySelector('description')?.textContent || 'Unknown';
+        description = decodeHtml(description);
         const thumbnail = gameNode.querySelector('thumbnail')?.textContent;
         const image = gameNode.querySelector('image')?.textContent;
 
@@ -157,6 +158,12 @@ async function addGame(gameString, id) {
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
 
+}
+
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
 }
 
 class Game {

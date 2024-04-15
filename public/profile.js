@@ -142,8 +142,9 @@ function displayGame(game) {
     const gameTableBody = document.createElement('tbody');
     const gameImageRow = document.createElement('tr');
     const gameImageTd = document.createElement('td');
+    // gameImageTd.className = 'img-td';
     const gameImageEl = document.createElement('img');
-    gameImageEl.src = game.thumbnail
+    gameImageEl.src = game.image;
 
     gameImageTd.appendChild(gameImageEl);
     gameImageRow.appendChild(gameImageTd);

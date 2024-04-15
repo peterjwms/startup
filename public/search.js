@@ -105,11 +105,13 @@ async function getGameData(searchIds) {
 
     // Extract data from the XML document
     const gameNodes = xmlDoc.getElementsByTagName('item');
-    let results = [];
+    let boardGameResults = [];
+    let allOtherResults = [];
 
     // for each game node, create a game object and add it to the results array
     for (let i = 0; i < gameNodes.length; i++) {
         const gameNode = gameNodes[i];
+        const type = gameNode.getAttribute('type');
         const title = gameNode.querySelector('name')?.getAttribute('value') || 'Unknown';
         const year = gameNode.querySelector('yearpublished')?.getAttribute('value') || 'Unknown';
         const publisher = gameNode.querySelector('boardgamepublisher')?.textContent || 'Unknown';
@@ -118,10 +120,10 @@ async function getGameData(searchIds) {
         const image = gameNode.querySelector('image')?.textContent;
 
         const game = new Game(title, year, publisher, description, thumbnail, image);
-        results.push(game);
+        type === 'boardgame' ? boardGameResults.push(game) : allOtherResults.push(game);
     }
 
-    return results;
+    return [...boardGameResults, ...allOtherResults];
 }
 
 async function addGame(gameString, id) {

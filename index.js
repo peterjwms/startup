@@ -24,8 +24,8 @@ apiRouter.get('/scores', (_req, res) => {
 
 // getHighScores
 apiRouter.get('/highScores', (_req, res) => {
-    console.log(highScores);
-    console.log(typeof highScores);
+    // console.log(highScores);
+    // console.log(typeof highScores);
     res.send(highScores);
 })
 
@@ -45,14 +45,14 @@ apiRouter.post('/game', (req, res) => {
 apiRouter.post('/score', (req, res) => {
     const score = req.body;
     const title = score.title.toLowerCase();
-    console.log(req.body);
+    // console.log(req.body);
     if (!scores[title]) {
         scores[title] = [];
     }
 
     scores[title].push(score);
     highScores = updateHighScores(title, score);
-    console.log('score');
+    // console.log('score');
     res.send(scores);
 });
 

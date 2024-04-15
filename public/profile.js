@@ -88,19 +88,21 @@ async function loadProfile() {
     try {
         const response = await fetch('/api/games');
         games = await response.json();
-        console.log(games);
+        // console.log(games);
 
         const response2 = await fetch('/api/highScores');
-        console.log(response2);
+        // console.log(response2);
         const highScores = await response2.json();
-        console.log(highScores);
+        // console.log(highScores);
         
-        Object.values(games).forEach(game => {
+        const sortedGames = Object.values(games).sort((a, b) => a.title.localeCompare(b.title));
+
+        sortedGames.forEach(game => {
             displayGame(game);
-            console.log(game);
-            console.log(game.title.toLowerCase());
+            // console.log(game);
+            // console.log(game.title.toLowerCase());
             const gameHighScores = highScores[game.title.toLowerCase()];
-            console.log(gameHighScores);
+            // console.log(gameHighScores);
             displayScores(gameHighScores, game);
         });
 
@@ -111,11 +113,10 @@ async function loadProfile() {
 
         // use the localStorage if fetch fails
         games = JSON.parse(localStorage.getItem('userGames') || "[]");
+        const sortedGames = Object.values(games).sort((a, b) => a.title.localeCompare(b.title));
         
-        Object.values(games).forEach(game => {
-        
+        sortedGames.forEach(game => {
             let gameObject = JSON.parse(localStorage.getItem(game));
-    
             displayGame(gameObject);
             displayScores(undefined, gameObject);
         });

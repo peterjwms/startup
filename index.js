@@ -108,8 +108,11 @@ secureApiRouter.get('/scores/:username', async (req, res) => {
 secureApiRouter.get('/highScores/:username', async (req, res) => {
     // this should get all the high scores associated with the user
     const highScores = await DB.getHighScores(req.params.username);
-    if (highScores) {
-        res.send(highScores);
+    console.log(highScores);
+    console.log(highScores["highScores"]);
+    const actualHighScores = highScores["highScores"];
+    if (actualHighScores) {
+        res.send(actualHighScores);
     }
     else {
         res.send([]);

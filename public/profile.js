@@ -101,7 +101,7 @@ async function loadProfile() {
             displayGame(game);
             // console.log(game);
             // console.log(game.title.toLowerCase());
-            const gameHighScores = highScores[game.title.toLowerCase()];
+            const gameHighScores = highScores.filter(score => score.gameId === game._id);
             // console.log(gameHighScores);
             displayScores(gameHighScores, game);
         });

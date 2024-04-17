@@ -77,8 +77,28 @@ function getGames() {
 }
 
 function addScore(score) {
-  // Add the score to the user's scores
+  // Add the score to the user's high scores, sorted and limited to top 3
   userCollection.updateOne(
+    { username: score.username },
+    {
+      $push:
+      {
+        highScores:
+        {
+          $each: [{
+            title: score.title,
+            gameId: score.gameId,
+            score: score.score,
+            player: score.player,
+            date: score.date
+          }],
+          $sort: { score: -1 },
+          $slice: 3
+        }
+      }
+    });
+  // Add the score to the user's scores
+  return userCollection.updateOne(
     { username: score.username },
     {
       $push:
@@ -93,25 +113,6 @@ function addScore(score) {
         }
       }
     });
-  // Add the score to the user's high scores, sorted and limited to top 3
-  userCollection.updateOne(
-    { username: score.username },
-    {
-      $push:
-      {
-        highScores:
-        {
-          title: score.title,
-          gameId: score.gameId,
-          score: score.score,
-          player: score.player,
-          date: score.date
-        }
-      },
-      $sort: { score: -1 },
-      $slice: 3
-    }
-  )
 }
 
 function getScores(username) {

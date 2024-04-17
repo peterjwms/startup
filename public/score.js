@@ -12,7 +12,9 @@ async function addScore() {
     const username = localStorage.getItem("userName");
 
     let form = document.getElementById("add-score-form");
-    
+
+
+
     let newScore = new Score(username, gameNameField.value.toLowerCase(), playerNameField.value,
         scoreField.value, dateField.value);
 
@@ -27,18 +29,25 @@ async function addScore() {
         }
     }
 
+
     try {
         const response = await fetch(`/api/games/${username}`);
         const games = await response.json();
         console.log(games);
-        if (!(gameNameField.value.toLowerCase() in games)) {
+
+        const inUserGames = games.some(game => game.title.toLowerCase() === gameNameField.value.toLowerCase());
+        if (!inUserGames) {
             alert("Game not found in profile. Please add the game to your profile first.");
             return;
         }
+
+        const gameId = games.find(game => game.title.toLowerCase() === gameNameField.value.toLowerCase())._id;
+        newScore.gameId = gameId;
     }
     catch (error) {
         console.error(error);
     }
+
 
 
     // send back the new score to the server
@@ -84,16 +93,17 @@ async function addScore() {
             gameHighScores.pop()
         }
         localStorage.setItem(gameHighScoresKey, JSON.stringify(gameHighScores))
-        
+
         alert('Score added!');
         form.reset();
-    
+
     }
-    
+
 }
 
 class Score {
     title;
+    gameId;
     username;
     player;
     score;

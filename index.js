@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const DB = require('./database.js');
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -12,32 +13,38 @@ var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 // getGames
-apiRouter.get('/games', (_req, res) => {
-    // console.log(games);
-    res.send((games));
+apiRouter.get('/games/:username', (req, res) => {
+    // this should get all the games the user has in their profile
+    const userGames = DB.getUserGames(req.params.username);
+    res.send((userGames));
 });
 
 // getScores
-apiRouter.get('/scores', (_req, res) => {
+apiRouter.get('/scores/:username', (req, res) => {
+    // this should get the scores as an array, same as it was before
+    const scores = DB.getScores(req.params.username);
     res.send(scores);
 })
 
 // getHighScores
-apiRouter.get('/highScores', (_req, res) => {
-    // console.log(highScores);
-    // console.log(typeof highScores);
+apiRouter.get('/highScores/:username', (req, res) => {
+    // this should get all the high scores associated with the user
+    const highScores = DB.getHighScores(req.params.username);
     res.send(highScores);
 })
 
 // addGame
-apiRouter.post('/game', (req, res) => {
+apiRouter.post('/game/:username', (req, res) => {
     console.log(req.body);
     const game = req.body;
     const title = game.title.toLowerCase();
-    if (!games[title]) {
-        games[title] = game;
-    }
-    // games.sort()
+    
+    const games = DB.addGame(req.params.username, game);
+
+    // if (!games[title]) {
+    //     games[title] = game;
+    // }
+    
     res.send(games);
 });
 
@@ -45,13 +52,14 @@ apiRouter.post('/game', (req, res) => {
 apiRouter.post('/score', (req, res) => {
     const score = req.body;
     const title = score.title.toLowerCase();
-    // console.log(req.body);
-    if (!scores[title]) {
-        scores[title] = [];
-    }
 
-    scores[title].push(score);
-    highScores = updateHighScores(title, score);
+    const scores = DB.addScore(score);
+    // console.log(req.body);
+    // if (!scores[title]) {
+    //     scores[title] = [];
+    // }
+    // scores[title].push(score);
+    // highScores = updateHighScores(title, score);
     // console.log('score');
     res.send(scores);
 });
@@ -64,9 +72,9 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-let games = {};
-let scores = {}; // this needs to be an object of gameScores: [scores] objects
-let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
+// let games = {};
+// let scores = {}; // this needs to be an object of gameScores: [scores] objects
+// let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
 
 function updateHighScores(title, score) {
     if (!highScores[title]) {

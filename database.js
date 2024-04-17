@@ -60,6 +60,11 @@ function getGame(id) {
   return gameCollection.findOne({ _id: id });
 }
 
+function getUserGames(username) {
+  userGameIds = userCollection.findOne({ username: username }, { games: 1 });
+  return gameCollection.find({ _id: { $in: userGameIds } }).toArray();
+}
+
 function getGames() {
   // Return all games in the collection - used for building profile
   return gameCollection.find().toArray();
@@ -118,6 +123,7 @@ module.exports = {
   addGame,
   getGame,
   getGames,
+  getUserGames,
   addScore,
   getScores,
   getHighScores

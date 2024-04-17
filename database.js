@@ -60,9 +60,15 @@ function getGame(id) {
   return gameCollection.findOne({ _id: id });
 }
 
-function getUserGames(username) {
-  userGameIds = userCollection.findOne({ username: username }, { games: 1 });
-  return gameCollection.find({ _id: { $in: userGameIds } }).toArray();
+async function getUserGames(username) {
+  const user = await userCollection.findOne({ username: username }, { projection: {games: 1 , _id: 0} });
+  if (user && user.games) {
+    const userGameIds = user.games;
+    return gameCollection.find({ _id: { $in: userGameIds } }).toArray();
+  }
+  else {
+    return [];
+  }
 }
 
 function getGames() {

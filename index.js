@@ -26,6 +26,10 @@ apiRouter.post('/auth/create', async (req, res) => {
         res.status(409).send({ message: 'User already exists' });
         return;
     }
+    else if (req.body.username.length < 3 || req.body.password.length < 3) {
+        res.status(400).send({ message: 'Username and password must be at least 3 characters' });
+        return;
+    }
     else {
         const user = await DB.createUser(req.body.username, req.body.password);
         setAuthCookie(res, user.token);
@@ -106,11 +110,11 @@ secureApiRouter.get('/scores/:username', async (req, res) => {
 secureApiRouter.get('/highScores/:username', async (req, res) => {
     // this should get all the high scores associated with the user
     const highScores = await DB.getHighScores(req.params.username);
-    console.log(highScores);
-    console.log(highScores["highScores"]);
-    const actualHighScores = highScores["highScores"];
-    if (actualHighScores) {
-        res.send(actualHighScores);
+    // console.log(highScores);
+    // console.log(highScores["highScores"]);
+    // const actualHighScores = highScores["highScores"];
+    if (highScores && highScores["highScores"]) {
+        res.send(highScores["highScores"]);
     }
     else {
         res.send([]);
@@ -125,11 +129,6 @@ secureApiRouter.post('/game/:username', async (req, res) => {
     const title = game.title.toLowerCase();
 
     const games = await DB.addGame(game, req.params.username);
-
-    // if (!games[title]) {
-    //     games[title] = game;
-    // }
-
     res.send(games);
 });
 
@@ -139,13 +138,6 @@ secureApiRouter.post('/score', async (req, res) => {
     const title = score.title.toLowerCase();
 
     const scores = await DB.addScore(score);
-    // console.log(req.body);
-    // if (!scores[title]) {
-    //     scores[title] = [];
-    // }
-    // scores[title].push(score);
-    // highScores = updateHighScores(title, score);
-    // console.log('score');
     res.send(scores);
 });
 
@@ -168,19 +160,3 @@ function setAuthCookie(res, token) {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
-
-// let games = {};
-// let scores = {}; // this needs to be an object of gameScores: [scores] objects
-// let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
-
-// function updateHighScores(title, score) {
-//     if (!highScores[title]) {
-//         highScores[title] = [];
-//     }
-//     highScores[title].push(score);
-//     highScores[title].sort((a, b) => b.score - a.score);
-//     if (highScores[title].length > 3) {
-//         highScores[title].pop();
-//     }
-//     return highScores;
-// }

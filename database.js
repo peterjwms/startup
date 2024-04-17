@@ -49,15 +49,21 @@ async function createUser(username, password) {
   return user;
 }
 
-function addGame(game, username) {
+async function addGame(game, username) {
   // Add a game to the collection
-  gameCollection.insertOne(game); //TODO: should probably check if the game already exists
-  return userCollection.updateOne({ username: username }, { $push: { games: game._id } })
+  const existingGame = await gameCollection.findOne({ title: game.title });
+  if (existingGame) {
+    return userCollection.updateOne({ username: username }, { $push: { games: existingGame._id } });
+  }
+  else {
+    gameCollection.insertOne(game);
+    return userCollection.updateOne({ username: username }, { $push: { games: game._id } });
+  }
 }
 
-function getGame(id) {
-  // Return one game with matching id - should be by id since that's what I'm storing in the user object
-  return gameCollection.findOne({ _id: id });
+function getGame(title) {
+  // Return one game with matching title
+  return gameCollection.findOne({ title: title });
 }
 
 async function getUserGames(username) {

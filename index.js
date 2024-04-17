@@ -4,6 +4,8 @@ const DB = require('./database.js');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 
+// const {peerProxy} = require('./peer-proxy.js');
+
 const authCookieName = 'token';
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -16,7 +18,7 @@ app.use(express.static('public'));
 
 app.set('trust proxy', true);
 
-var apiRouter = express.Router();
+const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 // finish making the user/auth routes
@@ -54,7 +56,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 });
 
 // logout
-apiRouter.post('/auth/logout', (_req, res) => {
+apiRouter.delete('/auth/logout', (_req, res) => {
     res.clearCookie(authCookieName);
     res.status(204).end();
 });
@@ -70,7 +72,7 @@ apiRouter.get('/user/:username', async (req, res) => {
     res.status(404).send({ message: 'Unknown' });
 });
 
-var secureApiRouter = express.Router();
+const secureApiRouter = express.Router();
 apiRouter.use(secureApiRouter);
 
 secureApiRouter.use(async (req, res, next) => {
@@ -157,6 +159,8 @@ function setAuthCookie(res, token) {
     });
 }
 
-app.listen(port, () => {
+const httpService = app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+// peerProxy(httpService);

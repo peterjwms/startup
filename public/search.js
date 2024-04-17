@@ -21,7 +21,7 @@ async function search() {
 
     // TODO: get the user's games from the server, if fails, check localStorage
     try {
-        const response = await fetch(`/api/games/${localStorage.getItem(userName)}`);
+        const response = await fetch(`/api/games/${localStorage.getItem("userName")}`);
         userGames = await response.json();
     }
     catch (error) {
@@ -133,7 +133,7 @@ async function addGame(gameString, id) {
     let games = [];
 
     try {
-        const response = await fetch(`/api/game/${localStorage.getItem(userName)}`, {
+        const response = await fetch(`/api/game/${localStorage.getItem("userName")}`, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(gameString),

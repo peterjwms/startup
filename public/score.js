@@ -1,4 +1,4 @@
-const ScoreSubmission = 'ScoreSubmission';
+const ScoreSubmission = 'scoreSubmission';
 
 async function addScore() {
     // get the values for game, player, score, date, and username should already be in localStorage

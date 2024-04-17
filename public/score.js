@@ -29,7 +29,6 @@ async function addScore() {
         }
     }
 
-
     try {
         const response = await fetch(`/api/games/${username}`);
         const games = await response.json();
@@ -48,8 +47,6 @@ async function addScore() {
         console.error(error);
     }
 
-
-
     // send back the new score to the server
     // take care of high scores on the server side
     try {
@@ -67,6 +64,9 @@ async function addScore() {
         }
         else {
             alert('Score added!');
+
+            // TODO: broadcast the event with websocket here
+            newScore.broadcastEvent(username, ScoreSubmission, newScore);
             console.log(newScore);
 
             form.reset();
@@ -115,8 +115,32 @@ class Score {
         this.player = player;
         this.score = score;
         this.date = date;
+        this.configureWebSocket();
     }
+
+    configureWebSocket() {
+        const protocol = window.location.protocol === 'https:' ? 'ws' : 'wss';
+        this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    }
+
+    displayMessage() {
+        const listEl = document.getElementById("scores-notifs-list");
+        const newListEl = document.createElement('li');
+        newListEl.textContent = `${this.username} scored ${this.score} in ${this.title}!`
+        listEl.appendChild(newListEl);
+    }
+
+    broadcastEvent(from, type, message) {
+        const event = {
+            from: from,
+            type: type,
+            message: message
+        };
+        this.socket.send(JSON.stringify(event));
+    }
+    
 }
+
 
 // TODO: set the game name from the profile page, depending on which one was clicked
 let urlParams = new URLSearchParams(window.location.search);
@@ -124,3 +148,7 @@ let gameTitle = urlParams.get('game');
 
 let gameField = document.getElementById("game-name-field");
 gameField.value = decodeURIComponent(gameTitle);
+
+const ScoreSubmission = 'ScoreSubmission';
+
+module.exports = { addScore, Score, ScoreSubmission };

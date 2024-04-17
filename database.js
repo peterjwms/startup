@@ -22,25 +22,29 @@ const gameCollection = db.collection('game');
   process.exit(1);
 });
 
-function getUser(email) {
-  return userCollection.findOne({ email: email });
+function getUser(username) {
+  // Return the user object with matching username
+  return userCollection.findOne({ username: username });
 }
 
 function getUserByToken(token) {
+  // Return the user object with matching token
   return userCollection.findOne({ token: token });
 }
 
 async function createUser(username, password) {
+  // Basically the same as the simon-login example
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = {
     username: username,
     password: hashedPassword,
     token: uuid.v4(),
-    games: [],
-    scores: [],
-    highScores: []
+    games: [], // list of game ids
+    scores: [], // list of all scores associated with the user
+    highScores: [] // list of the high scores associated with the user (filtered from scores when added)
   };
+
   await userCollection.insertOne(user);
   return user;
 }
@@ -51,13 +55,13 @@ function addGame(game, username) {
   return gameCollection.insertOne(game);
 }
 
-function getGame(title) {
-  // Return one game with matching title
-  return gameCollection.findOne({ title: title });
+function getGame(id) {
+  // Return one game with matching id - should be by id since that's what I'm storing in the user object
+  return gameCollection.findOne({ _id: id });
 }
 
 function getGames() {
-  // Return all games
+  // Return all games in the collection - used for building profile
   return gameCollection.find().toArray();
 }
 
@@ -77,8 +81,8 @@ function addScore(score) {
         }
       }
     });
-  // Add the score to the user's high scores
-  userCollection.findOneAndUpdate(
+  // Add the score to the user's high scores, sorted and limited to top 3
+  userCollection.updateOne(
     { username: score.username },
     {
       $push:
@@ -106,3 +110,15 @@ function getHighScores(username) {
   // Return all high scores for a user
   return userCollection.findOne({ username: username }, { highScores: 1 });
 }
+
+module.exports = {
+  getUser,
+  getUserByToken,
+  createUser,
+  addGame,
+  getGame,
+  getGames,
+  addScore,
+  getScores,
+  getHighScores
+};

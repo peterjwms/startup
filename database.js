@@ -51,8 +51,8 @@ async function createUser(username, password) {
 
 function addGame(game, username) {
   // Add a game to the collection
-  userCollection.updateOne({ username: username }, { $push: { games: game._id } })
-  return gameCollection.insertOne(game);
+  gameCollection.insertOne(game); //TODO: should probably check if the game already exists
+  return userCollection.updateOne({ username: username }, { $push: { games: game._id } })
 }
 
 function getGame(id) {
@@ -61,7 +61,7 @@ function getGame(id) {
 }
 
 async function getUserGames(username) {
-  const user = await userCollection.findOne({ username: username }, { projection: {games: 1 , _id: 0} });
+  const user = await userCollection.findOne({ username: username }, { projection: { games: 1 } });
   if (user && user.games) {
     const userGameIds = user.games;
     return gameCollection.find({ _id: { $in: userGameIds } }).toArray();
@@ -85,7 +85,8 @@ function addScore(score) {
       {
         scores:
         {
-          game: score.game._id,
+          title: score.title,
+          gameId: score.gameId,
           score: score.score,
           player: score.player,
           date: score.date
@@ -100,13 +101,14 @@ function addScore(score) {
       {
         highScores:
         {
-          game: score.game._id,
+          title: score.title,
+          gameId: score.gameId,
           score: score.score,
           player: score.player,
           date: score.date
         }
       },
-      $sort: {score: -1},
+      $sort: { score: -1 },
       $slice: 3
     }
   )

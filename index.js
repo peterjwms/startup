@@ -23,7 +23,7 @@ app.use('/api', apiRouter);
 // create a new user
 apiRouter.post('/auth/create', async (req, res) => {
     if (await DB.getUser(req.body.username)) {
-        res.status(409).send('User already exists');
+        res.status(409).send({message: 'User already exists'});
         return;
     }
     else {
@@ -46,7 +46,7 @@ apiRouter.post('/auth/login', async (req, res) => {
             return;
         }
         else {
-            res.status(401).send('Unauthorized');
+            res.status(401).send({message: 'Unauthorized'});
         }
     }
 });
@@ -65,7 +65,7 @@ apiRouter.get('/user/:username', async (req, res) => {
         res.send({ username: user.username, authenticated: token === user.token });
         return;
     }
-    res.status(404).send('Unknown');
+    res.status(404).send({message: 'Unknown'});
 });
 
 var secureApiRouter = express.Router();
@@ -78,14 +78,15 @@ secureApiRouter.use(async (req, res, next) => {
         next();
     }
     else {
-        res.status(401).send({msg: 'Unauthorized'});
+        res.status(401).send({message: 'Unauthorized'});
     }
 });
 
-// getGames
+// getUserGames
 secureApiRouter.get('/games/:username', async (req, res) => {
-    // this should get all the games the user has in their profile
+    // this should get all the games the user has in their profile - as object ids
     const userGames = await DB.getUserGames(req.params.username);
+    console.log(userGames);
     res.send(userGames);
 });
 
@@ -118,7 +119,7 @@ secureApiRouter.get('/highScores/:username', async (req, res) => {
 
 // addGame
 secureApiRouter.post('/game/:username', async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const game = req.body;
     const title = game.title.toLowerCase();
 

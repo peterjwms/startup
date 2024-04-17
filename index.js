@@ -4,7 +4,7 @@ const DB = require('./database.js');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 
-// const {peerProxy} = require('./peer-proxy.js');
+const {peerProxy} = require('./peerProxy.js');
 
 const authCookieName = 'token';
 

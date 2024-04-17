@@ -13,40 +13,46 @@ var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 // getGames
-apiRouter.get('/games/:username', (req, res) => {
+apiRouter.get('/games/:username', async (req, res) => {
     // this should get all the games the user has in their profile
-    const userGames = DB.getUserGames(req.params.username);
+    const userGames = await DB.getUserGames(req.params.username);
     res.send(userGames);
 });
 
 // getAllGames
-apiRouter.get('/allGames', (_req, res) => {
+apiRouter.get('/allGames', async (_req, res) => {
     // this should get all the games in the database
-    const games = DB.getGames();
+    const games = await DB.getGames();
     res.send(games);
 });
 
 // getScores
-apiRouter.get('/scores/:username', (req, res) => {
+apiRouter.get('/scores/:username', async (req, res) => {
     // this should get the scores as an array, same as it was before
-    const scores = DB.getScores(req.params.username);
+    const scores = await DB.getScores(req.params.username);
     res.send(scores);
 })
 
 // getHighScores
-apiRouter.get('/highScores/:username', (req, res) => {
+apiRouter.get('/highScores/:username', async (req, res) => {
     // this should get all the high scores associated with the user
-    const highScores = DB.getHighScores(req.params.username);
-    res.send(highScores);
+    const highScores = await DB.getHighScores(req.params.username);
+    if (highScores) {
+        res.send(highScores);
+    }
+    else {
+        res.send([]);
+    }
+    
 })
 
 // addGame
-apiRouter.post('/game/:username', (req, res) => {
+apiRouter.post('/game/:username', async (req, res) => {
     console.log(req.body);
     const game = req.body;
     const title = game.title.toLowerCase();
     
-    const games = DB.addGame(req.params.username, game);
+    const games = await DB.addGame(game, req.params.username);
 
     // if (!games[title]) {
     //     games[title] = game;
@@ -56,11 +62,11 @@ apiRouter.post('/game/:username', (req, res) => {
 });
 
 // addScore
-apiRouter.post('/score', (req, res) => {
+apiRouter.post('/score', async (req, res) => {
     const score = req.body;
     const title = score.title.toLowerCase();
 
-    const scores = DB.addScore(score);
+    const scores = await DB.addScore(score);
     // console.log(req.body);
     // if (!scores[title]) {
     //     scores[title] = [];
@@ -83,14 +89,14 @@ app.listen(port, () => {
 // let scores = {}; // this needs to be an object of gameScores: [scores] objects
 // let highScores = {}; // this needs to be an object of gameScores: [highScores] objects
 
-function updateHighScores(title, score) {
-    if (!highScores[title]) {
-        highScores[title] = [];
-    }
-    highScores[title].push(score);
-    highScores[title].sort((a, b) => b.score - a.score);
-    if (highScores[title].length > 3) {
-        highScores[title].pop();
-    }
-    return highScores;
-}
+// function updateHighScores(title, score) {
+//     if (!highScores[title]) {
+//         highScores[title] = [];
+//     }
+//     highScores[title].push(score);
+//     highScores[title].sort((a, b) => b.score - a.score);
+//     if (highScores[title].length > 3) {
+//         highScores[title].pop();
+//     }
+//     return highScores;
+// }

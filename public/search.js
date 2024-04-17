@@ -1,3 +1,5 @@
+const GameSubmission = 'gameSubmission';
+
 async function search() {
     // this should just take whatever the user puts into the search bar 
     // then pass it to the BGG API
@@ -53,6 +55,9 @@ async function search() {
             addGameButtonEl.textContent = "Add";
             // check if the game is in the userGames already - if so, disable the button
             userGames.some(game => game.title.toLowerCase() === nameTdEl.textContent.toLowerCase()) ? addGameButtonEl.disabled = true : addGameButtonEl.disabled = false;
+            if (addGameButtonEl.disabled) {
+                addGameButtonEl.textContent = "Added!";
+            }
 
             const rowEl = document.createElement('tr');
 
@@ -132,8 +137,11 @@ async function addGame(gameString, id) {
 
     let games = [];
 
+    const username = localStorage.getItem("userName");
+    const game = new Game(gameString.title, gameString.year, gameString.publisher, gameString.description, gameString.thumbnail, gameString.image);
+
     try {
-        const response = await fetch(`/api/game/${localStorage.getItem("userName")}`, {
+        const response = await fetch(`/api/game/${username}`, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(gameString),
@@ -153,10 +161,10 @@ async function addGame(gameString, id) {
         localStorage.setItem('userGames', JSON.stringify(games));
     }
 
-    //TODO: maybe adjust this so it's more efficient than sorting every time
-
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
+    addGameButtonEl.textContent = "Added!";
+    game.broadcastEvent(username, GameSubmission, game);
 
 }
 
@@ -182,5 +190,31 @@ class Game {
         this.description = description;
         this.thumbnail = thumbnail;
         this.image = image;
+        this.configureWebSocket();
+    }
+
+    configureWebSocket() {
+        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    }
+
+    displayMessage() {
+        const listEl = document.getElementById("games-notifs-list");
+        const newListEl = document.createElement('li');
+        newListEl.textContent = `${this.username} added ${this.title} to their games!`
+        listEl.appendChild(newListEl);
+    }
+
+    broadcastEvent(from, type, value) {
+        const event = {
+            from: from,
+            type: type,
+            value: value
+        };
+        this.socket.send(JSON.stringify(event));
     }
 }
+
+
+window.Game = Game;
+window.GameSubmission = GameSubmission;

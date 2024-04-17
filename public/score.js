@@ -94,8 +94,8 @@ async function addScore() {
 
 class Score {
     title;
-    player;
     username;
+    player;
     score;
     date;
 

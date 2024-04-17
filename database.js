@@ -23,18 +23,18 @@ const gameCollection = db.collection('game');
 });
 
 function getUser(email) {
-  return userCollection.findOne({email: email});
+  return userCollection.findOne({ email: email });
 }
 
 function getUserByToken(token) {
-  return userCollection.findOne({token: token});
+  return userCollection.findOne({ token: token });
 }
 
-async function createUser(email, password) {
+async function createUser(username, password) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = {
-    email: email,
+    username: username,
     password: hashedPassword,
     token: uuid.v4(),
     games: [],
@@ -45,11 +45,64 @@ async function createUser(email, password) {
   return user;
 }
 
-function addGame(game) {
+function addGame(game, username) {
+  // Add a game to the collection
+  userCollection.updateOne({ username: username }, { $push: { games: game._id } })
   return gameCollection.insertOne(game);
 }
 
 function getGame(title) {
-  return gameCollection.findOne({title: title});
+  // Return one game with matching title
+  return gameCollection.findOne({ title: title });
 }
 
+function getGames() {
+  // Return all games
+  return gameCollection.find().toArray();
+}
+
+function addScore(score) {
+  // Add the score to the user's scores
+  userCollection.updateOne(
+    { username: score.username },
+    {
+      $push:
+      {
+        scores:
+        {
+          game: score.game._id,
+          score: score.score,
+          player: score.player,
+          date: score.date
+        }
+      }
+    });
+  // Add the score to the user's high scores
+  userCollection.findOneAndUpdate(
+    { username: score.username },
+    {
+      $push:
+      {
+        highScores:
+        {
+          game: score.game._id,
+          score: score.score,
+          player: score.player,
+          date: score.date
+        }
+      },
+      $sort: {score: -1},
+      $slice: 3
+    }
+  )
+}
+
+function getScores(username) {
+  // Return all scores for a user
+  return userCollection.findOne({ username: username }, { scores: 1 });
+}
+
+function getHighScores(username) {
+  // Return all high scores for a user
+  return userCollection.findOne({ username: username }, { highScores: 1 });
+}

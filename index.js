@@ -1,40 +1,110 @@
 const express = require('express');
 const app = express();
 const DB = require('./database.js');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+
+const authCookieName = 'token';
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.json());
-// TODO: may need to do something else here for parsing the xml??
+
+app.use(cookieParser());
 
 app.use(express.static('public'));
+
+app.set('trust proxy', true);
 
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
+// finish making the user/auth routes
+// create a new user
+apiRouter.post('/auth/create', async (req, res) => {
+    if (await DB.getUser(req.body.username)) {
+        res.status(409).send('User already exists');
+        return;
+    }
+    else {
+        const user = await DB.createUser(req.body.username, req.body.password);
+        setAuthCookie(res, user.token);
+
+        res.send({
+            id: user._id,
+        });
+    }
+});
+
+// login
+apiRouter.post('/auth/login', async (req, res) => {
+    const user = await DB.getUser(req.body.username);
+    if (user) {
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            setAuthCookie(res, user.token);
+            res.send({ id: user._id });
+            return;
+        }
+        else {
+            res.status(401).send('Unauthorized');
+        }
+    }
+});
+
+// logout
+apiRouter.post('/auth/logout', (_req, res) => {
+    res.clearCookie(authCookieName);
+    res.status(204).end();
+});
+
+// get user
+apiRouter.get('/user/:username', async (req, res) => {
+    const user = await DB.getUser(req.params.username);
+    if (user) {
+        const token = req?.cookies.token;
+        res.send({ username: user.username, authenticated: token === user.token });
+        return;
+    }
+    res.status(404).send('Unknown');
+});
+
+var secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+    authToken = req.cookies[authCookieName];
+    const user = await DB.getUserByToken(authToken);
+    if (user) {
+        next();
+    }
+    else {
+        res.status(401).send({msg: 'Unauthorized'});
+    }
+});
+
 // getGames
-apiRouter.get('/games/:username', async (req, res) => {
+secureApiRouter.get('/games/:username', async (req, res) => {
     // this should get all the games the user has in their profile
     const userGames = await DB.getUserGames(req.params.username);
     res.send(userGames);
 });
 
 // getAllGames
-apiRouter.get('/allGames', async (_req, res) => {
+secureApiRouter.get('/allGames', async (_req, res) => {
     // this should get all the games in the database
     const games = await DB.getGames();
     res.send(games);
 });
 
 // getScores
-apiRouter.get('/scores/:username', async (req, res) => {
+secureApiRouter.get('/scores/:username', async (req, res) => {
     // this should get the scores as an array, same as it was before
     const scores = await DB.getScores(req.params.username);
     res.send(scores);
 })
 
 // getHighScores
-apiRouter.get('/highScores/:username', async (req, res) => {
+secureApiRouter.get('/highScores/:username', async (req, res) => {
     // this should get all the high scores associated with the user
     const highScores = await DB.getHighScores(req.params.username);
     if (highScores) {
@@ -43,26 +113,26 @@ apiRouter.get('/highScores/:username', async (req, res) => {
     else {
         res.send([]);
     }
-    
+
 })
 
 // addGame
-apiRouter.post('/game/:username', async (req, res) => {
+secureApiRouter.post('/game/:username', async (req, res) => {
     console.log(req.body);
     const game = req.body;
     const title = game.title.toLowerCase();
-    
+
     const games = await DB.addGame(game, req.params.username);
 
     // if (!games[title]) {
     //     games[title] = game;
     // }
-    
+
     res.send(games);
 });
 
 // addScore
-apiRouter.post('/score', async (req, res) => {
+secureApiRouter.post('/score', async (req, res) => {
     const score = req.body;
     const title = score.title.toLowerCase();
 
@@ -77,9 +147,21 @@ apiRouter.post('/score', async (req, res) => {
     res.send(scores);
 });
 
-app.use((_req, res) => {
-    res.sendFile('index.html', {root: 'public'});
+app.use(function (err, req, res, next) {
+    res.status(500).send({ type: err.name, message: err.message });
 });
+
+app.use((_req, res) => {
+    res.sendFile('index.html', { root: 'public' });
+});
+
+function setAuthCookie(res, token) {
+    res.cookie(authCookieName, token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
+});
+}
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

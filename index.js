@@ -23,7 +23,7 @@ app.use('/api', apiRouter);
 // create a new user
 apiRouter.post('/auth/create', async (req, res) => {
     if (await DB.getUser(req.body.username)) {
-        res.status(409).send({message: 'User already exists'});
+        res.status(409).send({ message: 'User already exists' });
         return;
     }
     else {
@@ -45,10 +45,8 @@ apiRouter.post('/auth/login', async (req, res) => {
             res.send({ id: user._id });
             return;
         }
-        else {
-            res.status(401).send({message: 'Unauthorized'});
-        }
     }
+    res.status(401).send({ message: 'Unauthorized' });
 });
 
 // logout
@@ -65,7 +63,7 @@ apiRouter.get('/user/:username', async (req, res) => {
         res.send({ username: user.username, authenticated: token === user.token });
         return;
     }
-    res.status(404).send({message: 'Unknown'});
+    res.status(404).send({ message: 'Unknown' });
 });
 
 var secureApiRouter = express.Router();
@@ -78,7 +76,7 @@ secureApiRouter.use(async (req, res, next) => {
         next();
     }
     else {
-        res.status(401).send({message: 'Unauthorized'});
+        res.status(401).send({ message: 'Unauthorized' });
     }
 });
 
@@ -164,7 +162,7 @@ function setAuthCookie(res, token) {
         secure: true,
         httpOnly: true,
         sameSite: 'strict',
-});
+    });
 }
 
 app.listen(port, () => {

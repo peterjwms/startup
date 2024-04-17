@@ -82,9 +82,9 @@ function getGames() {
   return gameCollection.find().toArray();
 }
 
-function addScore(score) {
+async function addScore(score) {
   // Add the score to the user's high scores, sorted and limited to top 3
-  userCollection.updateOne(
+  await userCollection.updateOne(
     { username: score.username },
     {
       $push:
@@ -98,11 +98,29 @@ function addScore(score) {
             player: score.player,
             date: score.date
           }],
-          $sort: { score: -1 },
-          $slice: 3
         }
       }
     });
+
+  // Find and pull the lowest score if there are more than 3 per game
+  const user = await userCollection.findOne({ username: score.username });
+  const gameHighScores = user.highScores.filter(s => s.gameId === score.gameId);
+  if (gameHighScores.length > 3) {
+    const lowestScore = gameHighScores.reduce((prev, curr) => prev.score < curr.score ? prev : curr);
+    await userCollection.updateOne(
+      { username: score.username },
+      {
+        $pull:
+        {
+          highScores:
+          {
+            gameId: score.gameId,
+            score: lowestScore.score
+          }
+        }
+      });
+  }
+
   // Add the score to the user's scores
   return userCollection.updateOne(
     { username: score.username },

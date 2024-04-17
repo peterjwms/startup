@@ -102,6 +102,7 @@ async function loadProfile() {
             // console.log(game);
             // console.log(game.title.toLowerCase());
             const gameHighScores = highScores.filter(score => score.gameId === game._id);
+            gameHighScores.sort((a, b) => b.score - a.score);
             // console.log(gameHighScores);
             displayScores(gameHighScores, game);
         });

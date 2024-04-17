@@ -51,8 +51,8 @@ async function search() {
             addGameButtonEl.id = game.title + "-add-button"
             addGameButtonEl.setAttribute("onclick", "addGame(" + JSON.stringify(game) + ", this.id)");
             addGameButtonEl.textContent = "Add";
-            // check if the game is in localStorage already - if so, disable the button
-            game.title.toLowerCase() in userGames ? addGameButtonEl.disabled = true : addGameButtonEl.disabled = false;
+            // check if the game is in the userGames already - if so, disable the button
+            userGames.some(game => game.title.toLowerCase() === nameTdEl.textContent.toLowerCase()) ? addGameButtonEl.disabled = true : addGameButtonEl.disabled = false;
 
             const rowEl = document.createElement('tr');
 

@@ -38,14 +38,14 @@ async function getUser(username) {
   return null;
 }
 
-function login() {
+async function login() {
   // const nameEl = document.querySelector("#username");
   // localStorage.setItem("userName", nameEl.value);
   // window.location.href = "profile.html";
   loginOrCreate('/api/auth/login');
 }
 
-function register() {
+async function register() {
   loginOrCreate('/api/auth/create');
 }
 

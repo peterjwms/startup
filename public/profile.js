@@ -40,7 +40,7 @@ function displayScores(gameHighScores, game) {
         const scoreDateTd = document.createElement('td');
 
         scoreCountTd.textContent = String(i + 1);
-        scoreUsernameTd.textContent = score.username;
+        scoreUsernameTd.textContent = getPlayerName();
         scorePlayerNameTd.textContent = score.player;
         scoreScoreTd.textContent = score.score;
         scoreDateTd.textContent = score.date;

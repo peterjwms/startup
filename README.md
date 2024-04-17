@@ -90,3 +90,15 @@ For this deliverable, I styled my application using CSS and Bootstrap
   - 10% - Your frontend calls third party service endpoints - search.js calls boardgamegeek endpoints to search and get game data
   - 20% - Your backend provides service endpoints - index.js provides service endpoints to add and get games and scores
   - 20% - Your frontend calls your service endpoints - frontend code calls service endpoints, especially for the places where it was previously pulling from localStorage
+
+## Login Deliverable
+- DONE - **Prerequisite**: Simon Login deployed to your production environment with your dbConfig.json credentials
+- DONE - **Prerequisite**: A link to your GitHub startup repository prominently displayed on your application's home page
+- DONE - **Prerequisite**: Notes in your startup Git repository README.md file documenting what you modified and added with this deliverable. The TAs will only grade things that have been clearly described as being completed. Review the [voter app](https://github.com/webprogramming260/startup-example) as an example.
+- DONE - **Prerequisite**: At least 10 git commits spread consistently throughout the assignment period.
+- Application authentication and authorization
+  - 20% - Supports new user registration - new user registration allowed and stored
+  - 20% - Supports existing user authentication - users authenticated from db
+  - 20% - Stores application data in MongoDB - all application data (users, games, scores) stored in MongoDB
+  - 20% - Stores and retrieves credentials in MongoDB - credentials stored and retrieved from MongoDB, hashed
+  - 20% - Restricts application functionality based upon authentication - auth cookie used, also index nav bar limited

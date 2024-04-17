@@ -4,7 +4,7 @@
 // randomly decide to have that user add a random score or add the game
 
 async function generateNotifications() {
-    const response = await fetch('/api/games');
+    const response = await fetch('/api/allGames');
     const games = await response.json();
 
     // const userGames = JSON.parse(localStorage.getItem("userGames"))

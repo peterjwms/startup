@@ -16,7 +16,14 @@ app.use('/api', apiRouter);
 apiRouter.get('/games/:username', (req, res) => {
     // this should get all the games the user has in their profile
     const userGames = DB.getUserGames(req.params.username);
-    res.send((userGames));
+    res.send(userGames);
+});
+
+// getAllGames
+apiRouter.get('/allGames', (_req, res) => {
+    // this should get all the games in the database
+    const games = DB.getGames();
+    res.send(games);
 });
 
 // getScores

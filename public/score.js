@@ -28,7 +28,7 @@ async function addScore() {
     }
 
     try {
-        const response = await fetch('/api/games');
+        const response = await fetch(`/api/games/${username}`);
         const games = await response.json();
         console.log(games);
         if (!(gameNameField.value.toLowerCase() in games)) {

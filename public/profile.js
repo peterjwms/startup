@@ -86,11 +86,11 @@ function displayScores(gameHighScores, game) {
 async function loadProfile() {
     let games = [];
     try {
-        const response = await fetch('/api/games');
+        const response = await fetch(`/api/games/${getPlayerName()}`);
         games = await response.json();
         // console.log(games);
 
-        const response2 = await fetch('/api/highScores');
+        const response2 = await fetch(`/api/highScores/${getPlayerName()}`);
         // console.log(response2);
         const highScores = await response2.json();
         // console.log(highScores);

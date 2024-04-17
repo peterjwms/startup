@@ -1,7 +1,4 @@
-// take a score and all associated information
-// should store it in localStorage for now
-// probably have an array of scores for each game that includes an object for each score
-// need to somehow sort through by score so just the highest scores are shown
+const ScoreSubmission = 'ScoreSubmission';
 
 async function addScore() {
     // get the values for game, player, score, date, and username should already be in localStorage
@@ -149,6 +146,6 @@ let gameTitle = urlParams.get('game');
 let gameField = document.getElementById("game-name-field");
 gameField.value = decodeURIComponent(gameTitle);
 
-const ScoreSubmission = 'ScoreSubmission';
 
-module.exports = { addScore, Score, ScoreSubmission };
+window.Score = Score;
+window.ScoreSubmission = ScoreSubmission;

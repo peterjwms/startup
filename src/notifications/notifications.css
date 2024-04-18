@@ -1,0 +1,30 @@
+hr {
+    color: darkcyan;
+    margin: 0 auto;
+    border:2px solid darkcyan;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+main {
+    margin: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#activity-holder {
+    width: 100%;
+    padding: 1%;
+}
+
+h1 {
+    padding-left: .5rem;
+}
+
+li {
+    text-wrap: wrap;
+    white-space: wrap;
+    
+}

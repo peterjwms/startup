@@ -3,6 +3,38 @@
 // randomly create a username and select a game from the user's games
 // randomly decide to have that user add a random score or add the game
 
+// const Game = window.Game;
+// const GameSubmission = window.GameSubmission;
+// const Score = window.Score;
+// const ScoreSubmission = window.ScoreSubmission;
+
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+socket.onmessage = async (event) => {
+    // console.log("event")
+    // console.log(event)
+    const message = JSON.parse(await event.data.text());
+    // console.log(message);
+    // console.log(message.from)
+    // console.log(message.type)
+    // console.log(message.message)
+    if (message.type === GameSubmission) {
+        const game = new Game(message.message.title, message.message.year, message.message.publisher, message.message.description, message.message.thumbnail, message.message.image);
+        console.log(game);
+        game.displayMessage(message.from);
+    }
+    else if (message.type === ScoreSubmission) {
+        // console.log(message.value)
+        // console.log(message.value.score)
+        const score = new Score(message.message.username, message.message.title, message.message.player, message.message.score, message.message.date);
+        console.log(score);
+        score.displayMessage();
+    }
+
+}
+
+
+
 async function generateNotifications() {
     const response = await fetch('/api/allGames');
     const games = await response.json();
@@ -37,4 +69,4 @@ async function generateNotifications() {
     }, 5000);
 }
 
-generateNotifications();
+// generateNotifications();

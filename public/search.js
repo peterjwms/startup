@@ -140,6 +140,8 @@ async function addGame(gameString, id) {
     const username = localStorage.getItem("userName");
     const game = new Game(gameString.title, gameString.year, gameString.publisher, gameString.description, gameString.thumbnail, gameString.image);
 
+    const ws = new GameSubmissionWS();
+
     try {
         const response = await fetch(`/api/game/${username}`, {
             method: 'POST',
@@ -164,7 +166,7 @@ async function addGame(gameString, id) {
     addGameButtonEl = document.getElementById(id);
     addGameButtonEl.disabled = true;
     addGameButtonEl.textContent = "Added!";
-    game.broadcastEvent(username, GameSubmission, game);
+    ws.broadcastEvent(username, GameSubmission, game);
 
 }
 
@@ -190,28 +192,43 @@ class Game {
         this.description = description;
         this.thumbnail = thumbnail;
         this.image = image;
-        this.configureWebSocket();
-    }
 
+    }
+}
+
+class GameSubmissionWS {
+    constructor() {
+        this.socketOpenPromise = this.configureWebSocket();
+    }
     configureWebSocket() {
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+        return new Promise((resolve, reject) => {
+            this.socket.onopen = () => resolve();
+            this.socket.onerror = (err) => reject(err);
+        });
     }
 
-    displayMessage(from) {
+    displayMessage(title, from) {
         const listEl = document.getElementById("games-notifs-list");
         const newListEl = document.createElement('li');
-        newListEl.textContent = `${from} added ${this.title} to their games!`
+        newListEl.textContent = `${from} added ${title} to their games!`
         listEl.appendChild(newListEl);
     }
 
-    broadcastEvent(from, type, value) {
+    async broadcastEvent(from, type, value) {
         const event = {
             from: from,
             type: type,
             value: value
         };
-        this.socket.onopen = () => this.socket.send(JSON.stringify(event));
+        try {
+            await this.socketOpenPromise;
+            this.socket.send(JSON.stringify(event));
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 }
 

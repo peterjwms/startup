@@ -10,7 +10,7 @@ async function addScore() {
 
     let form = document.getElementById("add-score-form");
 
-
+    const ws = new ScoreSubmissionWS();
 
     let newScore = new Score(username, gameNameField.value.toLowerCase(), playerNameField.value,
         scoreField.value, dateField.value, "");
@@ -63,7 +63,7 @@ async function addScore() {
             alert('Failed to add score');
         }
         else {
-            newScore.broadcastEvent(username, ScoreSubmission, newScore);
+            ws.broadcastEvent(username, ScoreSubmission, newScore);
             alert('Score added!');
             form.reset();
         }
@@ -112,34 +112,51 @@ class Score {
         this.score = score;
         this.date = date;
         this.gameId = gameId;
-        this.configureWebSocket();
+        
+    }
+}
+class ScoreSubmissionWS {
+    constructor() {
+        this.socketOpenPromise = this.configureWebSocket();
     }
 
     configureWebSocket() {
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         this.socket = new WebSocket(`${protocol}://${window.location.host}`);
+
+        return new Promise((resolve, reject) => {
+            this.socket.onopen = () => resolve();
+            this.socket.onerror = (err) => reject(err);
+        });
     }
 
-    async displayMessage() {
+    async displayMessage(score) {
         const listEl = document.getElementById("scores-notifs-list");
         const newListEl = document.createElement('li');
 
         const response = await fetch(`/api/allGames`);
         const games = await response.json();
-        const capsTitle = games.find(game => game._id === this.gameId).title;
-        console.log(capsTitle);
+        const capsTitle = games.find(game => game._id === score.gameId).title;
+        // console.log(capsTitle);
 
-        newListEl.textContent = `${this.username} scored ${this.score} in ${capsTitle}!`
+        newListEl.textContent = `${score.username} scored ${score.score} in ${capsTitle}!`
         listEl.appendChild(newListEl);
     }
 
-    broadcastEvent(from, type, value) {
+    async broadcastEvent(from, type, value) {
         const event = {
             from: from,
             type: type,
             value: value
         };
-        this.socket.onopen = () => this.socket.send(JSON.stringify(event));
+        try {
+            await this.socketOpenPromise;
+            this.socket.send(JSON.stringify(event));
+        }
+        catch (error) {
+            console.error(error);
+        }
+        
     }
 
 }

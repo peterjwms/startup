@@ -139,7 +139,7 @@ class Score {
             type: type,
             value: value
         };
-        this.socket.send(JSON.stringify(event));
+        this.socket.onopen = () => this.socket.send(JSON.stringify(event));
     }
 
 }

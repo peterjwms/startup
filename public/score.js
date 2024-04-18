@@ -13,13 +13,16 @@ async function addScore() {
 
 
     let newScore = new Score(username, gameNameField.value.toLowerCase(), playerNameField.value,
-        scoreField.value, dateField.value);
+        scoreField.value, dateField.value, "");
 
     // check if any of the values are null
     // if yes, then alert that that value needs to be filled
     // then just return so that the form is not reset
     // otherwise add the score, alert, and reset the form
     for (property in newScore) {
+        if (property === "gameId") {
+            continue;
+        }
         if (newScore[property] === "") {
             alert(property.charAt(0).toUpperCase() + property.slice(1) + " missing");
             return;
@@ -29,7 +32,7 @@ async function addScore() {
     try {
         const response = await fetch(`/api/games/${username}`);
         const games = await response.json();
-        console.log(games);
+        // console.log(games);
 
         const inUserGames = games.some(game => game.title.toLowerCase() === gameNameField.value.toLowerCase());
         if (!inUserGames) {
@@ -60,12 +63,8 @@ async function addScore() {
             alert('Failed to add score');
         }
         else {
-            alert('Score added!');
-
-            // TODO: broadcast the event with websocket here
             newScore.broadcastEvent(username, ScoreSubmission, newScore);
-            console.log(newScore);
-
+            alert('Score added!');
             form.reset();
         }
 
@@ -106,12 +105,13 @@ class Score {
     score;
     date;
 
-    constructor(username, title, player, score, date) {
+    constructor(username, title, player, score, date, gameId) {
         this.username = username;
         this.title = title;
         this.player = player;
         this.score = score;
         this.date = date;
+        this.gameId = gameId;
         this.configureWebSocket();
     }
 
@@ -120,22 +120,28 @@ class Score {
         this.socket = new WebSocket(`${protocol}://${window.location.host}`);
     }
 
-    displayMessage() {
+    async displayMessage() {
         const listEl = document.getElementById("scores-notifs-list");
         const newListEl = document.createElement('li');
-        newListEl.textContent = `${this.username} scored ${this.score} in ${this.title}!`
+
+        const response = await fetch(`/api/allGames`);
+        const games = await response.json();
+        const capsTitle = games.find(game => game._id === this.gameId).title;
+        console.log(capsTitle);
+
+        newListEl.textContent = `${this.username} scored ${this.score} in ${capsTitle}!`
         listEl.appendChild(newListEl);
     }
 
-    broadcastEvent(from, type, message) {
+    broadcastEvent(from, type, value) {
         const event = {
             from: from,
             type: type,
-            message: message
+            value: value
         };
         this.socket.send(JSON.stringify(event));
     }
-    
+
 }
 
 

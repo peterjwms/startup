@@ -12,7 +12,7 @@ export default function App() {
   // const root = ReactDOM.createRoot(document.getElementById('root'));
   return (
     <BrowserRouter>
-      <div className='body bg-dark text-light'>
+      <div className='body'>
         <header className="container-fluid">
           <nav className="navbar fixed-top navbar-dark">
             <div className="navbar-brand">OnBoard</div>

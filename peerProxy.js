@@ -27,7 +27,7 @@ function peerProxy(httpServer) {
         ws.on('close', () => {
             const pos = connections.findIndex((o, i) => o.id === connection.id);
 
-            if (pow >= 0) {
+            if (pos >= 0) {
                 connections.splice(pos, 1);
             }
         });

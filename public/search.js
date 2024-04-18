@@ -194,14 +194,14 @@ class Game {
     }
 
     configureWebSocket() {
-        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
     }
 
-    displayMessage() {
+    displayMessage(from) {
         const listEl = document.getElementById("games-notifs-list");
         const newListEl = document.createElement('li');
-        newListEl.textContent = `${this.username} added ${this.title} to their games!`
+        newListEl.textContent = `${from} added ${this.title} to their games!`
         listEl.appendChild(newListEl);
     }
 
@@ -214,7 +214,6 @@ class Game {
         this.socket.send(JSON.stringify(event));
     }
 }
-
 
 window.Game = Game;
 window.GameSubmission = GameSubmission;

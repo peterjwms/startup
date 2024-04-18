@@ -116,8 +116,8 @@ class Score {
     }
 
     configureWebSocket() {
-        const protocol = window.location.protocol === 'https:' ? 'ws' : 'wss';
-        this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        this.socket = new WebSocket(`${protocol}://${window.location.host}`);
     }
 
     displayMessage() {
@@ -144,7 +144,9 @@ let urlParams = new URLSearchParams(window.location.search);
 let gameTitle = urlParams.get('game');
 
 let gameField = document.getElementById("game-name-field");
-gameField.value = decodeURIComponent(gameTitle);
+if (gameField) {
+    gameField.value = decodeURIComponent(gameTitle);
+}
 
 
 window.Score = Score;

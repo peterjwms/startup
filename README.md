@@ -113,3 +113,14 @@ For this deliverable, I styled my application using CSS and Bootstrap
   - 20% - Frontend makes WebSocket connection - addGame, addScore, and notifications connect to websocket from the frontend
   - 30% - Data sent over WebSocket connection - data sent from addGame and addScore to notifications to be displayed
   - 30% - WebSocket data displayed in the application interface - notifications displays added scores and games from other users
+
+## React Deliverable
+- DONE - **Prerequisite**: Simon React deployed to your production environment
+- DONE - **Prerequisite**: A link to your GitHub startup repository prominently displayed on your application's home page
+- DONE - **Prerequisite**: Notes in your startup Git repository `README.md` file documenting what you modified and added with this deliverable. The TAs will only grade things that have been clearly described as being completed. Review the [voter app](https://github.com/webprogramming260/startup-example) as an example.
+- **Prerequisite**: At least 10 git commits spread consistently throughout the assignment period.
+- Application converted to use React
+  - 10% Bundled using Vite - set up with Vite
+  - 30% Multiple functional react components - partially functional components
+  - 30% React router - routing works
+  - 30% React hooks - useEffect hooks in profile.jsx

@@ -102,3 +102,14 @@ For this deliverable, I styled my application using CSS and Bootstrap
   - 20% - Stores application data in MongoDB - all application data (users, games, scores) stored in MongoDB
   - 20% - Stores and retrieves credentials in MongoDB - credentials stored and retrieved from MongoDB, hashed
   - 20% - Restricts application functionality based upon authentication - auth cookie used, also index nav bar limited
+
+## Websocket Deliverable
+- DONE - **Prerequisite**: Simon WebSocket deployed to your production environment
+- DONE - **Prerequisite**: A link to your GitHub startup repository prominently displayed on your application's home page
+- DONE - **Prerequisite**: Notes in your startup Git repository README.md file documenting what you modified and added with this deliverable. The TAs will only grade things that have been clearly described as being completed. Review the [voter app](https://github.com/webprogramming260/startup-example) as an example.
+- DONE - **Prerequisite**: At least 10 git commits spread consistently throughout the assignment period.
+- WebSocket support for data pushed from the backend
+  - 20% - Backend listens for WebSocket connection - backend listens for websocket from peerProxy file, which is referenced in index.js
+  - 20% - Frontend makes WebSocket connection - addGame, addScore, and notifications connect to websocket from the frontend
+  - 30% - Data sent over WebSocket connection - data sent from addGame and addScore to notifications to be displayed
+  - 30% - WebSocket data displayed in the application interface - notifications displays added scores and games from other users

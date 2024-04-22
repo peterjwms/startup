@@ -1,6 +1,7 @@
 import React from 'react';
 
 export function Login() {
+    localStorage.setItem('userName', '');
   return (
     <main className="container-fluid" id="login-page">
         {/* <h1>Welcome</h1>

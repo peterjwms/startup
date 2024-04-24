@@ -465,3 +465,437 @@ coinToss
    * `address` `A` records map domain name to IP and `canonical name` `CNAME` records map domain name to domain name (alias)
    ** `time to live` `TTL` setting to set how long info should be cached
 
+### URL
+represents the location of any web resource
+
+```yaml
+<scheme>://<domain name>:<port>/<path>?<parameters>#<anchor>
+```
+
+| Part        | Example                              | Meaning                                                                                                                                                                                                                                                                             |
+| ----------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme      | https                                | The protocol required to ask for the resource. For web applications, this is usually HTTPS. But it could be any internet protocol such as FTP or MAILTO.                                                                                                                            |
+| Domain name | byu.edu                              | The domain name that owns the resource represented by the URL.                                                                                                                                                                                                                      |
+| Port        | 3000                                 | The port specifies the numbered network port used to connect to the domain server. Lower number ports are reserved for common internet protocols, higher number ports can be used for any purpose. The default port is 80 if the scheme is HTTP, or 443 if the scheme is HTTPS.     |
+| Path        | /school/byu/user/8014                | The path to the resource on the domain. The resource does not have to physically be located on the file system with this path. It can be a logical path representing endpoint parameters, a database table, or an object schema.                                                    |
+| Parameters  | filter=names&highlight=intro,summary | The parameters represent a list of key value pairs. Usually it provides additional qualifiers on the resource represented by the path. This might be a filter on the returned resource or how to highlight the resource. The parameters are also sometimes called the query string. |
+| Anchor      | summary                              | The anchor usually represents a sub-location in the resource. For HTML pages this represents a request for the browser to automatically scroll to the element with an ID that matches the anchor. The anchor is also sometimes called the hash, or fragment ID.                     |
+
+### Ports
+* both IP address and numbered port necessary for connection - allow single device to support multiple protocols and services
+* 0-1023 for standard protocols (avoid using); 1024-49151 for requesting entities, commonly used by internal services; 49152-65535 are dynamic
+* Caddy listening on 80 for unsecure HTTP and 443 for HTTPS; port 22 used externaly exposed to SSH into server; Caddy then examines the path in URL through HTTP request and makes connection to service's port or file and returns results from request
+
+| Port | Protocol                                                                                           |
+| ---- | -------------------------------------------------------------------------------------------------- |
+| 20   | File Transfer Protocol (FTP) for data transfer                                                     |
+| 22   | Secure Shell (SSH) for connecting to remote devices                                                |
+| 25   | Simple Mail Transfer Protocol (SMTP) for sending email                                             |
+| 53   | Domain Name System (DNS) for looking up IP addresses                                               |
+| 80   | Hypertext Transfer Protocol (HTTP) for web requests                                                |
+| 110  | Post Office Protocol (POP3) for retrieving email                                                   |
+| 123  | Network Time Protocol (NTP) for managing time                                                      |
+| 161  | Simple Network Management Protocol (SNMP) for managing network devices such as routers or printers |
+| 194  | Internet Relay Chat (IRC) for chatting                                                             |
+| 443  | HTTP Secure (HTTPS) for secure web requests                                                        |
+
+### HTTP
+#### Requests
+
+```yaml
+<verb> <url path, parameters, anchor> <version>
+[<header key: value>]*
+[
+
+  <body>
+]
+```
+
+
+| Verb    | Meaning                                                                                                                                                                                                                                                  |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET     | Get the requested resource. This can represent a request to get a single resource or a resource representing a list of resources.                                                                                                                        |
+| POST    | Create a new resource. The body of the request contains the resource. The response should include a unique ID of the newly created resource.                                                                                                             |
+| PUT     | Update a resource. Either the URL path, HTTP header, or body must contain the unique ID of the resource being updated. The body of the request should contain the updated resource. The body of the response may contain the resulting updated resource. |
+| DELETE  | Delete a resource. Either the URL path or HTTP header must contain the unique ID of the resource to delete.                                                                                                                                              |
+| OPTIONS | Get metadata about a resource. Usually only HTTP headers are returned. The resource itself is not returned.                                                                                                                                              |
+
+#### Responses
+```yaml
+<version> <status code> <status string>
+[<header key: value>]*
+[
+
+  <body>
+]
+```
+
+- 1xx - Informational.
+- 2xx - Success.
+- 3xx - Redirect to some other location, or that the previously cached resource is still valid.
+- 4xx - Client errors. The request is invalid.
+- 5xx - Server errors. The request cannot be satisfied due to an error on the server.
+
+
+| Code | Text                                                                                 | Meaning                                                                                                                           |
+| ---- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| 100  | Continue                                                                             | The service is working on the request                                                                                             |
+| 200  | Success                                                                              | The requested resource was found and returned as appropriate.                                                                     |
+| 201  | Created                                                                              | The request was successful and a new resource was created.                                                                        |
+| 204  | No Content                                                                           | The request was successful but no resource is returned.                                                                           |
+| 304  | Not Modified                                                                         | The cached version of the resource is still valid.                                                                                |
+| 307  | Permanent redirect                                                                   | The resource is no longer at the requested location. The new location is specified in the response location header.               |
+| 308  | Temporary redirect                                                                   | The resource is temporarily located at a different location. The temporary location is specified in the response location header. |
+| 400  | Bad request                                                                          | The request was malformed or invalid.                                                                                             |
+| 401  | Unauthorized                                                                         | The request did not provide a valid authentication token.                                                                         |
+| 403  | Forbidden                                                                            | The provided authentication token is not authorized for the resource.                                                             |
+| 404  | Not found                                                                            | An unknown resource was requested.                                                                                                |
+| 408  | Request timeout                                                                      | The request takes too long.                                                                                                       |
+| 409  | Conflict                                                                             | The provided resource represents an out of date version of the resource.                                                          |
+| 418  | [I'm a teapot](https://en.wikipedia.org/wiki/Hyper_Text_Coffee_Pot_Control_Protocol) | The service refuses to brew coffee in a teapot.                                                                                   |
+| 429  | Too many requests                                                                    | The client is making too many requests in too short of a time period.                                                             |
+| 500  | Internal server error                                                                | The server failed to properly process the request.                                                                                |
+| 503  | Service unavailable                                                                  | The server is temporarily down. The client should try again with an exponential back off.                                         |
+
+#### Headers
+
+| Header                      | Example                              | Meaning                                                                                                                                                                        |
+| --------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Authorization               | Bearer bGciOiJIUzI1NiIsI             | A token that authorized the user making the request.                                                                                                                           |
+| Accept                      | image/\*                             | The format the client accepts. This may include wildcards.                                                                                                            |
+| Content-Type                | text/html; charset=utf-8             | The format of the content being sent. These are described using standard [MIME](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) types. |
+| Cookie                      | SessionID=39s8cgj34; csrftoken=9dck2 | Key value pairs that are generated by the server and stored on the client.                                                                                                     |
+| Host                        | info.cern.ch                         | The domain name of the server. This is required in all requests.                                                                                                               |
+| Origin                      | cs260.click                          | Identifies the origin that caused the request. A host may only allow requests from specific origins.                                                                           |
+| Access-Control-Allow-Origin | https://cs260.click                  | Server response of what origins can make a request. This may include a wildcard.                                                                                               |
+| Content-Length              | 368                                  | The number of bytes contained in the response.                                                                                                                                 |
+| Cache-Control               | public, max-age=604800               | Tells the client how it can cache the response.                                                                                                                                |
+| User-Agent                  | Mozilla/5.0 (Macintosh)              | The client application making the request.                                                                                                                                     |
+
+#### Body
+format defined by the `Content-Type` header; client can specify acceptable formats using `accept` header
+
+#### Cookies
+HTTP stateless, so use cookies to track state across requests; generated by server and passed to client as HTTP header; use cookies to remember auth, language preference, other user data, etc.; danger comes from web apps improperly using them to violate privacy or monetize data
+
+### Fetch
+* `fetch` function preferred to make HTTP requests; built into browser's JS runtime; takes a URL and returns a promise
+* GET request with fetch just passes the URL, and then takes care of the promise with `await` or `.then`, and `(response) => response.json()`
+* POST request populates method, body, and headers of the fetch request as a JSON key-value object, and handles response the same way
+
+### Node.js
+* first successful app to deploy JS outside browser in 2009; allows JS to power fullstack
+* use NVM (Node Version Manager) to install and manage node
+* run a line of JS with `node -e "console.log(1+1)"`
+* execute a program with `node index.js`
+* NPM  (Node Package Manager) to install package locally with `npm install package-name`, and then include `require` statement in code to reference package name; init using `npm init -y` with all defaults for a directory
+* `package.json` contains metadata about project w/ name and default entry JS file; commands/scripts to execute to run/test/distribute code; packages that the project depends on
+* `package-lock.json` tracks versions of the pakages installed; also creates `node_modules` directory, which contains all the actual JS files - don't want to check this into source control b/c large - can rebuild it with package and package-lock instead, so .gitignore it
+* Creating web service - use JS to write code that listens on a port, receives requests, processes, and responds using node
+
+#### Debugging Node
+* can just debug inside VSCode with F5, breakpoints, etc.; F5 to start, F10 to step to next line, F11 to step into call, F5 to continue from current line, shift-F5 to stop debugging
+* Nodemon package that wraps node to watch for files in project directory to change and then it automatically restarts node 
+
+
+### Express
+* support for routing requests for service endpoints, manipulating HTTP requests with JSON body content, generating HTTP responses, using middleware to add functionality
+* routes - call a function based on an HTTP path; `app` object supports all HTTP verbs as functions on the object
+   - e.g. call `get` method with the URL and a callback function with params for HTTP request, response, and next
+   - supports parameters with a colon, e.g. `app.get('/store/:storeName', (req, res, next) => {res.send(response)})`
+    - route paths can include wildcard `*` syntax or full regex; also don't need to include `next()` if you're not calling it, just means that no middleware functions will be invoked
+* middleware
+   - middleware represents componentized pieces of functionality; similar to routing functions, but are called for every HTTP request unless a preceding function doesn't call next; routing are only called if pattern matches
+   - mediator loads middleware components, determines order of execution
+   - Express has standard set of middleware for functionality like routing, authentication, CORS, sessions, serving static web files, cookies, and logging
+   - the order you add your middleware to the Express app object controls the order that the middleware functions are called; if don't call `next`, it stops the chain
+   - can add and use third-party middleware, like `cookie-parser` to simplify generation and access of cookies
+   - error handling - looks similar, but takes an additional `err` param with the error
+
+### Security
+* SOP - Same Origin Policy
+   - only allows JS to make requests to a domain if it's the same domain the user is currently viewing
+* CORS - Cross Origin Resource Sharing
+   - allows client to specify origin of request and let server respond with which origins are allowed
+   - can range from all origins if an external API or something similar, or only specific origins, for something like auth service
+   - browser is protecting the user from accessing the auth endpoint from the wrong origin - only mean to alert user that something is being attempted
+* third-party services
+   - need to make sure any other domain allows requests as defined by the `Access-Control-Allow-Origin` header returned
+
+### Service Design
+* model and sequence diagrams - model the primary objects and interactions (not focused on programming constructs/infrastructure)
+* leverage existing HTTP and content types so you don't have to rewrite stuff; includes using caching serverse to increase performance, edge servers to bring content closer, replication servers that provide redundant copies of content and make app more resilient to network failures
+* endpoints - each endpoint provides single functional purpose
+   - design considerations
+      - grammatical - everything with HTTP is a resource that you act on with an HTTP verb
+      - readable - resource should be readable in the URL path
+      - discoverable - make it so someone using your endpoints only needs to remember top level endpoint and then they can discover everything else by you providing endpoints for aggregated resources
+      - compatible - make it so you can add new functionality w/o breaking existing clients; usually means clients should ignore anything they don't understand; add new representations of fields to provide new functionality for clients that know how to use that field w/o harming older clients that ignore new fields
+      - simple - keep endpoints focused on primary resources of your app - class/sequence diagrams that outline primary resources - should only be one way to act on a resource, endpoints do only one thing
+       - documented - Open API spec is ex of tooling that helps create/use/maintain documentation of service endpoints - can use those to help w/ client implementations and facilitates easier maintenance
+* Remote Procedure Calls - RPC
+   - exposes service endpoints as simple function calls; advantage that it maps directly to function calls in the server, but also directly exposes inner workings of the service
+   - function call is the actual verb and subject of the function name, e.g. `deleteOrder` in `POST /updateOrder /HTTP/2`
+* REST - Representational State Transfer
+   - take advantage of foundational principles of HTTP by verbs always acting on a resource; operations impact the state of a resource as it is transferred by REST endpoint call - allows for caching functionality of HTTP to work optimally
+   - proper HTTP verb is used and URL path uniquely identifies the resource
+* GraphQL
+   - focuses on manipulation of data instead of function call (RPC) or resource (REST): query that specifies desired data and how it should be joined/filtered
+   - instead of making calls for every resource, makes a single query to request all information, examine the query, join desired data, and filter out anything else
+   - only one endpoint, query; helps remove logic for parsing endpoints and mapping requests to specific resources
+
+### PM2 - Process Manager 2
+* `daemon` registers programs to keep them running after a shutdown
+* PM@ already on prod server as part of AWS AMI when launched
+
+| Command                                                    | Purpose                                                                          |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **pm2 ls**                                                 | List all of the hosted node processes                                            |
+| **pm2 monit**                                              | Visual monitor                                                                   |
+| **pm2 start index.js -n simon**                            | Add a new process with an explicit name                                          |
+| **pm2 start index.js -n startup -- 4000**                  | Add a new process with an explicit name and port parameter                       |
+| **pm2 stop simon**                                         | Stop a process                                                                   |
+| **pm2 restart simon**                                      | Restart a process                                                                |
+| **pm2 delete simon**                                       | Delete a process from being hosted                                               |
+| **pm2 delete all**                                         | Delete all processes                                                             |
+| **pm2 save**                                               | Save the current processes across reboot                                         |
+| **pm2 restart all**                                        | Reload all of the processes                                                      |
+| **pm2 restart simon --update-env**                         | Reload process and update the node version to the current environment definition |
+| **pm2 update**                                             | Reload pm2                                                                       |
+| **pm2 start env.js --watch --ignore-watch="node_modules"** | Automatically reload service when index.js changes                               |
+| **pm2 describe simon**                                     | Describe detailed process information                                            |
+| **pm2 startup**                                            | Displays the command to run to keep PM2 running after a reboot.                  |
+| **pm2 logs simon**                                         | Display process logs                                                             |
+| **pm2 env 0**                                              | Display environment variables for process. Use `pm2 ls` to get the process ID    |
+
+ ### Environments
+ * separation of dev (PC) and prod (AWS server) environments - don't use prod to develop or test anything w/ your app
+ * developer won't have access to prod usually to prevent them from nefariously manipulating company asset
+ * continuous integration process - checkout app code, lint it, build, test, stage, test, then finally deploy
+ * advantage is that it's reproducible, and encourages quick iteration b/c easier to deploy code;
+
+### Uploading files
+* to upload files from frontend to backend - use HTML `input` el of type `file` and `Multer` NPM package backend
+* Multer - handles reading the file, enforcing size limit, and storing file in `uploads` directory
+* storage solutions - don't want to put stuff on server - not much space, servers are typically transient, server storage not usually backed up, multiple app servers mean you can't assume the server you uploaded data to is the same one you request a download from
+* want to use dedicated storage service w/ durability, not tied to compute capacity, and accessible by multiple servers
+* AWS S3 very commonly used
+
+
+## Data services
+### Intro
+* websites need to store app and user data persistently
+* MongoDB uses JSON objects as core data model, so fits with fullstack JSON models well - no strict schema requirements, allowing collection schema to morph organically as data model of app evolves
+* mongo database has 1+ collections, each with an array of JS objects, each with a unique ID
+
+
+| Service       | Specialty             |
+| ------------- | --------------------- |
+| MySQL         | Relational queries    |
+| Redis         | Memory cached objects |
+| ElasticSearch | Ranked free text      |
+| MongoDB       | JSON objects          |
+| DynamoDB      | Key value pairs       |
+| Neo4J         | Graph based data      |
+| InfluxDB      | Time series data      |
+
+### Authorization services
+* store auth tokens on user's device, usually in a cookie to pass back to web service each request; authorization might have different roles for each user in-app
+* Single sign on for user to use the same credentials for multiple web apps; federated login allows user to log in once and then authTok is reused for multiple websites, e.g. Google Docs, Youtube, Drive, etc.
+
+### Account creation/login
+* create and login endpoints - 409 (conflict) if trying to create existing user, 401 (unauthorized) if email doesn't exist or wrong pass
+* store users and their data in Mongo
+* generate authTokens with uuid (Universally Unique Identifier)
+* secure passwords by hashing them using `bcrypt`
+* pass auth tokens using `cookie-parser`; `httpOnly` tells browser to not allow JS to read cookie, `secure` requires HTTPS, `sameSite` returns cookie only to the domain that generated it
+
+## Testing
+### UI testing
+* test driven development - issue is that browser is required to execute the code
+* Playwright - great recent tool from Microsoft directly connected to VSCode that will run tests you write
+* BrowserStack - testing on various devices b/c all can interact differently
+
+### Endpoint testing
+* testing services easier than UI b/c it doesn't require a browser
+* current champion is Jest - human readable description as first parameter; can write tests to `expect` certain things
+* can be good to write tests first and then write code based on design represented by the tests
+
+## WebSocket
+### Intro
+* communication between 2+ connected devices: notifications, distributed task processing, peer-to-peer communication, async events
+* peer-to-peer connection from WebSocket where either party can efficiently send data at any time; only between two parties, so still pinging server if more than two users need to communicate
+* use `ws` package to create a WebSocketServer listening on same port as browser; when connection is detected, the `onConnection` callback triggered, `send` to send messages, and `onMessage` to receive messages and do 
+* keeping connections alive - has ability to send ping and receive pong if peer is still there; clear up any connections that don't respond
+* Debugging Websocket - VSCode to debug server and Chrome to debug client; Chrome's debugger has WebSocket specific support
+
+## Security
+### Intro
+* application data can be used everywhere, especially with internet interconnectivity everywhere
+* terminology
+   - **Hacking** - The process of making a system do something it's not supposed to do.
+   - **Exploit** - Code or input that takes advantage of a programming or configuration flaw.
+   - **Attack Vector** - The method that a hacker employs to penetrate and exploit a system.
+   - **Attack Surface** - The exposed parts of a system that an attacker can access. For example, open ports (22, 443, 80), service endpoints, or user accounts.
+   - **Attack Payload** - The actual code, or data, that a hacker delivers to a system in order to exploit it.
+   - **Input sanitization** - "Cleaning" any input of potentially malicious data.
+   - **Black box testing** - Testing an application without knowledge of the internals of the application.
+   - **White box testing** - Testing an application by **with** knowledge of the source code and internal infrastructure.
+   - **Penetration Testing** - Attempting to gain access to, or exploit, a system in ways that are not anticipated by the developers.
+   - **Mitigation** - The action taken to remove, or reduce, a threat.
+* Motivations
+   - **Disruption** - By overloading a system, encrypting essential data, or deleting critical infrastructure, an attacker can destroy normal business operations. This may be an attempt at extortion, or simply be an attempt to punish a business that that attacker does not agree with.
+   - **Data exfiltration** - By privately extracting, or publicly exposing, a system's data, an attacker can embarrass the company, exploit insider information, sell the information to competitors, or leverage the information for additional attacks.
+   - **Resource consumption** - By taking control of a company's computing resources an attacker can use it for other purposes such as mining cryptocurrency, gathering customer information, or attacking other systems.
+* Common techniques
+   - **Injection**: When an application interacts with a database on the backend, a programmer will often take user input and concatenate it directly into a search query. This allows a hacker can use a specially crafted query to make the database reveal hidden information or even delete the database.
+
+   - **Cross-Site Scripting (XSS)**: A category of attacks where an attacker can make malicious code execute on a different user's browser. If successful, an attacker can turn a website that a user trusts, into one that can steal passwords and hijack a user's account.
+
+   - **Denial of Service**: This includes any attack where the main goal is to render any service inaccessible. This can be done by deleting a database using an SQL injection, by sending unexpected data to a service endpoint that causes the program to crash, or by simply making more requests than a server can handle.
+
+   - **Credential Stuffing**: People have a tendency to reuse passwords or variations of passwords on different websites. If a hacker has a user's credentials from a previous website attack, then there is a good chance that they can successfully use those credentials on a different website. A hacker can also try to brute force attack a system by trying every possible combination of password.
+
+   - **Social engineering** - Appealing to a human's desire to help, in order to gain unauthorized access or information.
+* What to do
+   - **Sanitize input data** - Always assume that any data you receive from outside your system will be used to exploit your system. Consider if the input data can be turned into an executable expression, or can overload computing, bandwidth, or storage resources.
+   - **Logging** - It is not possible to think of every way that your system can be exploited, but you can create an immutable log of requests that will expose when a system is being exploited. You can then trigger alerts, and periodically review the logs for unexpected activity.
+   - **Traps** - Create what appears to be valuable information and then trigger alarms when the data is accessed.
+   - **Educate** - Teach yourself, your users, and everyone you work with, to be security minded. Anyone who has access to your system should understand how to prevent physical, social, and software attacks.
+   - **Reduce attack surfaces** - Do not open access anymore than is necessary to properly provide your application. This includes what network ports are open, what account privileges are allowed, where you can access the system from, and what endpoints are available.
+   - **Layered security** - Do not assume that one safeguard is enough. Create multiple layers of security that each take different approaches. For example, secure your physical environment, secure your network, secure your server, secure your public network traffic, secure your private network traffic, encrypt your storage, separate your production systems from your development systems, put your payment information in a separate environment from your application environment. Do not allow data from one layer to move to other layers. For example, do not allow an employee to take data out of the production system.
+   - **Least required access policy** - Do not give any one user all the credentials necessary to control the entire system. Only give a user what access they need to do the work they are required to do.
+   - **Safeguard credentials** - Do not store credentials in accessible locations such as a public GitHub repository or a sticky note taped to a monitor. Automatically rotate credentials in order to limit the impact of an exposure. Only award credentials that are necessary to do a specific task.
+   - **Public review** - Do not rely on obscurity to keep your system safe. Assume instead that an attacker knows everything about your system and then make it difficult for anyone to exploit the system. If you can attack your system, then a hacker will be able to also. By soliciting public review and the work of external penetration testers, you will be able to discover and remove potential exploits.
+
+### OWASP - Open Web Application Security Project
+* top 10 most important web app security risks
+   - broken access control - not properly enforcing permissions on users
+   - cryptographic failures - sensitive data accessible w/o encryption, w/ weak protocols, or when cryptographic protections are ignored
+   - injection - hacker allowed to supply data that is injected into context where it violates expected use, e.g. SQL injection 
+   - insecure design - architectural flaws that are unique for individual systems b/c app team doesn't focus on security
+   - security misconfiguration - exploit app config, such as default passwords, unupdated software, exposing config settings, etc.
+   - vulernable and outdated components - tech debt the longer an app has been deployed b/c of cost of maintenance
+   - identification and authentication failures - user's identity impersonated or assumed by attacker if guessed, or stored elsewhere
+   - software and data integrity failure - attacks that allow external software/processes/data to compromise app, such as third-party or open source packages/workflow
+   - security logging and monitoring failures - secure system should store logs that are accessible, immutable, and contain info to detect intrusion and conduct analysis
+   - server side request forgery - causes app service to make unintended internal requests that use service's elevated privileges to expose internal data/services
+
+## Web Frameworks
+### Intro
+* make writing web apps easier by providing tools to complete common tasks: modularizing code, creating single page apps, simplifying reactivity, supporting diverse hardware devices
+* hybrid file formats - React JSX, Vue SFC, Svelte - abstracts away core formats to put focus on functional components over files
+* Vue - combines HTML, CSS, JS into single file, represented in `<script>`, `<style>`, and `<template>` elements
+* Svelte - combine all into single file, requires transpiler to generate browser-ready code
+* React - JS and HTML as components, CSS declared outside of JSX; uses JS functionality
+* Angular - defines which JS, HTML, and CSS are combined, by keeping fairly strong separation of files grouped in a directory together
+### React
+* focus on making reactive web page components that automatically update from user interactions/changes in underlying data
+* abstracts HTML into JSX, which uses Babel preprocessor to convert into valid HTML and JS
+* components - allow you to modularize functionality of app; underlying code can directly represent components, and enables reuse
+   - render function generates user interface and is inserted into component HTML element
+   - element properties used to pass info to React components
+   - state - component can have internal state, using React.useState hook function, which returns variable w/ current state and function to update the state
+   - class style components, but probably shouldn't be used (`extends React.Component`) and has properties loaded on constructor and state set w/ function on component object
+   - reactivity - properties and state used to determine reactivity, which controls how a component reacts to actions taken by user or events that happen within the app
+
+### Toolchains
+* more complex webprogramming, so more tools to abstract away complexity
+* toolchain for React project uses GitHub, Vite for JSX/TS/dev and debug support, ESBuild for conversion to ES6 modules and transpiling (Babel), Rollup for bundling and tree shaking, PostCSS for CSS transpiling, and bash script for deployment
+* tools 
+   - **Code repository** - Stores code in a shared, versioned location.
+   - **Linter** - Removes, or warns of, non-idiomatic code usage.
+   - **Prettier** - Formats code according to a shared standard.
+   - **Transpiler** - Compiles code into a different format. For example, from JSX to JavaScript, TypeScript to JavaScript, or SCSS to CSS.
+   - **Polyfill** - Generates backward compatible code for supporting old browser versions that do not support the latest standards.
+   - **Bundler** - Packages code into bundles for delivery to the browser. This enables compatibility (for example with ES6 module support), or performance (with lazy loading).
+   - **Minifier** - Removes whitespace and renames variables in order to make code smaller and more efficient to deploy.
+   - **Testing** - Automated tests at multiple levels to ensure correctness.
+   - **Deployment** - Automated packaging and delivery of code from the development environment to the production environment.
+
+### Vite
+* bundles code quickly and allows for JSX, TS support, etc.
+
+### Router
+* web framework router provides functionality for single-page apps
+* load one HTML page, and use JS to manipulate DOM and give appearance of multiple pages
+* routerdefines possible routes through the app, and automatically manipulates DOM to display appropriate components
+* `BrowserRouter` to wrap the whole thing, `NavLink` to create links to paths, and `Route` with elements that take paths and display elements
+
+### Reactivity
+* making UI react to changes in user input or data
+* enabled with props, state, and render
+* when rendered, React parses JSX and creates list of all references to component's state or props objects, which are monitored and re-rendered if changes are detected
+* updateState is async, so can't assume that it happens on next line of code
+
+### React hooks
+* allow function style components to do everything class style components can do
+* `useState` to declare and update state in function component
+* `useEffect` to represent lifecycle events, e.g. to run something every time component completes rendering
+* dependencies - control what triggers a useEffect hook by specifying dependencies as a second parameter to the call; specifying empty array means it is only called when component is first rendered
+* hooks can only be used in function style components and must be called at top scope, so not possible inside loop or conditional, ensuring they're always called in same order when component is rendered
+
+## Misc
+### TypeScript
+* adds static type checking to JS, preventing type error mistakes; explicitly define types, and errors will generate when JS transpiles
+* interfaces - `interface` keyword to define collection of parameters and types that an object must contain to satisfy interface type (custom classes)
+* also warns of potential uses of uninitialized variables, or when a function could return null
+* also introduces ability to define possible values for a new type, like defining an enumerable
+* vite can use typescript w/o additional config
+
+### Performance monitoring
+* want app to load in about one second to prevent losing users
+* need to monitor responsiveness: browser application latency, network latency, service endpoint latency
+* browser application latency
+   - impacted by the speed of the user's device, the amount of data that needs to be processed, and the time complexity of the processing algorithm
+   - browser requests `index.html` first, and then anything linked from that, including JS, which then makes requests to services, which take longer than simple HTMl load
+   - make app processing async as possible so done in background
+   - reduce impact of file size and HTTP requests by:
+      1. Use compression when transferring files over HTTP.
+      1. Reduce the quality of images and video to the lowest acceptable level.
+      1. Minify JavaScript and CSS. This removes all whitespace and creates smaller variable names.
+      1. Use HTTP/2 or HTTP/3 so that your HTTP headers are compressed and the communication protocol is more efficient.
+* Network latency
+   - avoid unnecessary or large requests
+   - impacted by the amount of data that you send, the amount of data a user can receive per second (this is called bandwidth), and the distance the data has to travel
+   - consider low bandwidth connections, global latency (reduced by hosting app files in data centers closer to users)
+* Service endpoint latency
+   - impacted by the number of request that are made and the amount of time that it takes to process each request
+   - some functionality in app blocked until endpoint returns
+* Performance tools
+   - Chrome network tab - shows all network requests and time necessary; clear cache before testing
+   - allows you to simulate real users by throttling network connection
+   - Chrome Lighthouse - debugging tool you can use to run an analysis of app
+   - Chrome performance tab - breaks down details of app based on discrete intervals of time to isolate where things are running slowly
+   - global speed tests - test app from different locations around the world, such as Pingdom.com
+
+### UX Design
+* consider why someone is using app, how they want to interact, how visually appealing it is, and how easy it is to get something done
+* think of ux as a story b/c always reasons someone using the app
+* simplicity (inspired by Google's home page) - focus on a single purpose
+* consistency - use standard conventions, but unique so that experience stands out - don't want user to think hard to use app
+* navigation
+   | Navigation Controls | Description                                           |
+   | ------------------- | ----------------------------------------------------- |
+   | App controls        | User settings, payment, and help controls             |
+   | Device controls     | Device specific controls such as back, next, and home |
+   | Breadcrumb          | A path of the user's walk through the application     |
+   | Common actions      | Direct links to locations based on the current view   |
+* colors - primary, secondary, focus colors to make it nice, can use different shades/tones for variety w/o rainbow
+* typography - good font to make it easy to look at and increase attention span (sans serif, serif, monospace, handwriting) - restrict to <3 fonts and use them consistently
+* iconography - use standard web icons to identify common functionality and decrease learning curve
+* text - consistent in text size and number of characters displayed on a line; specify max paragraph width
+* internationalization - translation and correct rendering for currency, dates, numbers, etc.
+* space - creates focus and lessen effort necessary to interpret info
+* interaction - powerful way to engage user and increase retention
+* images - deeper understanding, visual appeal, draw user in, know what product looks like
+* animation - make app come alive, confirm choices, demonstrate progress, focus attention, but not too much
+* decision fatigue - Hick's law - limit the number of choices given at any point in time
+* device aware - more seamless integration leads to more intuitive and useful app, including size and orientation
+* performance - partially load some content, display loading animation, etc.
+* accessibility - visual, physical, auditory impairments
+* legal - HIPAA, FERPA, ADA, GDPR
+* walls - complexity, payment, app failure, security, legal
+
+### PWA
+not going to be on test
